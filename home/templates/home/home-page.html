@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<!-- All class =... stuff is used for bootstrap styling I believe -->
+<html>
+<title> Home Page</title>
+<h1>Home page currently in progress. This is here temporarily :)</h1>
+
+<!-- checking for flashed message -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tages}}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif%}
+
+</html>
