@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+
 {% block content %}
   <div class="content-section p-3 p-md-5 m-md-3">
     <form class="col-lg-6 offset-lg-3" method="POST">
@@ -13,8 +14,7 @@
       </div>
       <small class="text-muted">
         Already have account?
-        <a class="ml-2" href="{% url 'login' %}">Sign In</a
-        ><!--This takes person to log in page, but don't have that yet-->
+        <a class="ml-2" href="{% url 'login' %}">Sign In</a>
       </small>
     </form>
   </div>
