@@ -11,7 +11,7 @@ def register(request):
             form.save()#Saves the actual user form and does hashing stuff
             username = form.cleaned_data.get('username')
             messages.success(request,f'Account created for {username}!')
-            return redirect('home-page')
+            return redirect('login')
     else:
         form = UserCreationForm()
 
