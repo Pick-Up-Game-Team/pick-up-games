@@ -1,16 +1,222 @@
-<!DOCTYPE html>
-<!-- All class =... stuff is used for bootstrap styling I believe -->
-<html>
-<title> Home Page</title>
-<h1>Home page currently in progress. This is here temporarily :)</h1>
+<!DOCTYPE html>{% load static %}
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Homepage</title>
 
-<!-- checking for flashed message -->
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tages}}">
-            {{ message }}
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico" />
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/4.0/examples/product/"
+    />
+    <!-- Bootstrap core CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <nav class="site-header sticky-top py-1">
+      <div
+        class="container d-flex flex-column flex-md-row justify-content-between"
+      >
+        <a class="py-2 d-none d-md-inline-block" href="#">About</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Sports</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Features</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Support</a>
+        <a class="py-2 d-none d-md-inline-block" href="register/">Register</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Login</a>
+      </div>
+    </nav>
+
+    <div
+      class="
+        position-relative
+        overflow-hidden
+        p-3 p-md-5
+        m-md-3
+        text-center
+        bg-light
+      "
+    >
+      <div class="col-md-5 p-lg-5 mx-auto my-5">
+        <h1 class="display-4 font-weight-normal">
+          Find A Pick Up Games Near You
+        </h1>
+        <p class="lead font-weight-normal">
+          Pick Up Games provides an easy and convenient way for anyone to search
+          for and meet up with other people who want to play pick up sports
+          games!
+        </p>
+        <!--a class="btn btn-outline-secondary" href="#">Coming soon</~a-->
+      </div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+      <div
+        class="
+          bg-basketball
+          mr-md-3
+          pt-3
+          px-3
+          pt-md-5
+          px-md-5
+          text-center text-white
+          overflow-hidden
+        "
+      >
+        <div class="my-3 py-3">
+          <h2 class="display-5">Basketball</h2>
+          <p class="lead">And an even wittier subheading.</p>
         </div>
-    {% endfor %}
-{% endif%}
+        <div
+          class="bg-transparent box-shadow mx-auto"
+          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
+        ></div>
+      </div>
+      <div
+        class="
+          bg-soccer
+          mr-md-3
+          pt-3
+          px-3
+          pt-md-5
+          px-md-5
+          text-center text-white
+          overflow-hidden
+        "
+      >
+        <div class="my-3 p-3">
+          <h2 class="display-5">Soccer</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div
+          class="bg-transparent box-shadow mx-auto"
+          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
+        ></div>
+      </div>
+    </div>
 
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+      <div
+        class="
+          bg-tennis
+          mr-md-3
+          pt-3
+          px-3
+          pt-md-5
+          px-md-5
+          text-center text-white
+          overflow-hidden
+        "
+      >
+        <div class="my-3 p-3">
+          <h2 class="display-5">Tennis</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div
+          class="bg-dark box-shadow mx-auto"
+          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
+        ></div>
+      </div>
+      <div
+        class="
+          bg-baseball
+          mr-md-3
+          pt-3
+          px-3
+          pt-md-5
+          px-md-5
+          text-center text-white
+          overflow-hidden
+        "
+      >
+        <div class="my-3 py-3">
+          <h2 class="display-5">Baseball</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div
+          class="bg-light box-shadow mx-auto"
+          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
+        ></div>
+      </div>
+    </div>
+
+    <footer class="container py-5">
+      <div class="row">
+        <div class="col-12 col-md">
+          <h2 class="display-5">Pick Up Games</h2>
+          <small class="d-block mb-3 text-muted">&copy; 2021</small>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Features</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Cool stuff</a></li>
+            <li><a class="text-muted" href="#">Random feature</a></li>
+            <li><a class="text-muted" href="#">Team feature</a></li>
+            <li><a class="text-muted" href="#">Stuff for developers</a></li>
+            <li><a class="text-muted" href="#">Another one</a></li>
+            <li><a class="text-muted" href="#">Last time</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Resource</a></li>
+            <li><a class="text-muted" href="#">Resource name</a></li>
+            <li><a class="text-muted" href="#">Another resource</a></li>
+            <li><a class="text-muted" href="#">Final resource</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Business</a></li>
+            <li><a class="text-muted" href="#">Education</a></li>
+            <li><a class="text-muted" href="#">Government</a></li>
+            <li><a class="text-muted" href="#">Gaming</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>About</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Team</a></li>
+            <li><a class="text-muted" href="#">Locations</a></li>
+            <li><a class="text-muted" href="#">Privacy</a></li>
+            <li><a class="text-muted" href="#">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
