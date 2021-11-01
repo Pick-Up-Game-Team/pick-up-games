@@ -1,38 +1,83 @@
-<!DOCTYPE html>
+<!DOCTYPE html>{% load static %}
 <!-- All class =... stuff is used for bootstrap styling I believe -->
-<html>
-<title> Registration Page</title>
-<h1>Registration Page</h1>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Registration Page</title>
 
-<!-- checking for flashed message -->
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tages}}">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endif%}
-<div class = "content-section">
-    <form method = "POST">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico" />
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/4.0/examples/product/"
+    />
+    <!-- Bootstrap core CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <nav class="site-header sticky-top py-1">
+      <div
+        class="container d-flex flex-column flex-md-row justify-content-between"
+      >
+        <a class="py-2 d-none d-md-inline-block" href="#">About</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Sports</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Features</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Support</a>
+        <a class="py-2 d-none d-md-inline-block" href="register/">Register</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Login</a>
+      </div>
+    </nav>
+
+    <!-- checking for flashed message -->
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-{{ message.tages}}">{{ message }}</div>
+    {% endfor %} {% endif%}
+    <div class="content-section p-3 p-md-5 m-md-3">
+      <form class="col-lg-6 offset-lg-3" method="POST">
         {% csrf_token %}
-        <fieldset class = "form-group">
-            <legend class = "border-bottom mb-4">
-                Join Today
-            </legend>
-            {{ form.as_p }}
+        <fieldset class="form-group">
+          <legend class="mb-4">Join Today</legend>
+          {{ form.as_p }}
         </fieldset>
-        <div class ="form-group">
-            <button class="btn btn-outline-info" type = "submit">
-                Sign Up
-            </button>
+        <div class="form-group">
+          <button class="btn btn-outline-info" type="submit">Sign Up</button>
         </div>
-    </form>
-    <div class ="border-top pt-3">
-        <small class = "text-muted">
-            Already have account?
-            <a class="ml-2" href="#">Sign In</a><!--This takes person to log in page, but don't have that yet-->
+        <small class="text-muted">
+          Already have account?
+          <a class="ml-2" href="#">Sign In</a
+          ><!--This takes person to log in page, but don't have that yet-->
         </small>
+      </form>
     </div>
-</div>
 
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
