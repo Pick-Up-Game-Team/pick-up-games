@@ -1,38 +1,20 @@
-<!DOCTYPE html>
-<!-- All class =... stuff is used for bootstrap styling I believe -->
-<html>
-<title> Registration Page</title>
-<h1>Registration Page</h1>
-
-<!-- checking for flashed message -->
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tages}}">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endif%}
-<div class = "content-section">
-    <form method = "POST">
-        {% csrf_token %}
-        <fieldset class = "form-group">
-            <legend class = "border-bottom mb-4">
-                Join Today
-            </legend>
-            {{ form.as_p }}
-        </fieldset>
-        <div class ="form-group">
-            <button class="btn btn-outline-info" type = "submit">
-                Sign Up
-            </button>
-        </div>
+{% extends "home/base.html" %}
+{% block content %}
+  <div class="content-section p-3 p-md-5 m-md-3">
+    <form class="col-lg-6 offset-lg-3" method="POST">
+      {% csrf_token %}
+      <fieldset class="form-group">
+        <legend class="mb-4">Join Today</legend>
+        {{ form.as_p }}
+      </fieldset>
+      <div class="form-group">
+        <button class="btn btn-outline-info" type="submit">Sign Up</button>
+      </div>
+      <small class="text-muted">
+        Already have account?
+        <a class="ml-2" href="#">Sign In</a
+        ><!--This takes person to log in page, but don't have that yet-->
+      </small>
     </form>
-    <div class ="border-top pt-3">
-        <small class = "text-muted">
-            Already have account?
-            <a class="ml-2" href="#">Sign In</a><!--This takes person to log in page, but don't have that yet-->
-        </small>
-    </div>
-</div>
-
-</html>
+  </div>
+{% endblock content %}

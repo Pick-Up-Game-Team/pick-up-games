@@ -14,4 +14,10 @@ def register(request):
             return redirect('home-page')
     else:
         form = UserCreationForm()
-    return render(request, 'users/registration-page.html', {'form': form})
+
+    context = {
+        'title': 'Registration',
+        'form': form,
+    }
+
+    return render(request, 'users/registration-page.html', context)
