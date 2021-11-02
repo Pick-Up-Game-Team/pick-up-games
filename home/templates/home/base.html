@@ -50,20 +50,29 @@
         <a class="py-2 d-none d-md-inline-block" href="#">Sports</a>
         <a class="py-2 d-none d-md-inline-block" href="#">Features</a>
         <a class="py-2 d-none d-md-inline-block" href="#">Support</a>
-        <a class="py-2 d-none d-md-inline-block" href="register/">Register</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Login</a>
+
+        <!-- Display log out or register and log in items depending on log in status -->
+        {% if user.is_authenticated %}
+          <a class="py-2 d-none d-md-inline-block" href="{% url 'logout' %}">Log Out</a>
+        {% else %}
+          <a class="py-2 d-none d-md-inline-block" href="{% url 'registration-page' %}">Register</a>
+          <a class="py-2 d-none d-md-inline-block" href="{% url 'login' %}">Login</a>
+        {% endif %}
       </div>
     </nav>
 
     <!-- Display messages if they exist -->
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <div class="container-fluid">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 
+    <!-- Individual page content goes here -->
     {% block content %}{% endblock %}
 
     <footer class="container py-5">
