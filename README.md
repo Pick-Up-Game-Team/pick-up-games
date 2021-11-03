@@ -58,6 +58,7 @@ To create an admin user, use `python manage.py createsuperuser`. The admin panel
     ```python
     python manage.py test
     ```
-
+   Note: At the time we test this, there is no error. However, if you receive error from running the command. You might need to install [Google Chrome driver](https://chromedriver.chromium.org/home).
+   
 
 
