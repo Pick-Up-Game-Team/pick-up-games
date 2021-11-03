@@ -10,11 +10,11 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-
+from selenium.webdriver.chrome.options import Options
 # Create your tests here.
 
 
-class TestHomepage():
+class TestHomepage(TestCase):
     def setup_method(self, method):
         self.driver = webdriver.Chrome()
         self.vars = {}
@@ -23,13 +23,16 @@ class TestHomepage():
         self.driver.quit()
 
     def test_homepage(self):
-        # Test name: homepage
-        # Step # | name | target | value
-        # 1 | open | / |
-        self.driver.get("http://127.0.0.1:8000/")
-        # 2 | click | linkText=Register |
+        chrome_options = Options()
+        browser = webdriver.Chrome(chrome_options=chrome_options)
+        browser.implicitly_wait(10)
+        browser.get("http://127.0.0.1:8000/")
+        yield browser
+
         self.driver.find_element(By.LINK_TEXT, "Register").click()
         # 3 | click | linkText=Login |
         self.driver.find_element(By.LINK_TEXT, "Login").click()
         # 4 | click | linkText=Register |
         self.driver.find_element(By.LINK_TEXT, "Register").click()
+
+        browser.quit()

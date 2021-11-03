@@ -41,10 +41,11 @@ No need to install anything  !
 ## Running Test Suite 🖥️
 
 - [Selenium](https://www.selenium.dev/) - We use Selenium for our front-end testing. The tool helps with automating web applications for workflow, prompt, login/logout section, and other testing purposes.  
-  To test run this command in your terminal (for Windows OS) 
+  To test run this command in your terminal
     ```python
     python manage.py test
     ```
-
+   Note: At the time we test this, there is no error. However, if you receive error from running the command. You might need to install [Google Chrome driver](https://chromedriver.chromium.org/home).
+   
 
 
