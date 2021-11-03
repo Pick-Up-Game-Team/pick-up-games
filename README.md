@@ -14,7 +14,7 @@
 
 ## **Features in progess**✨
 
-### Iteration 1
+### Iteration 2
 - [x] Homepage
 - [x] Login page
 - [x] User profile page
@@ -22,14 +22,27 @@
 - [x] Registration page
 - [x] Basic front-end testing
 
-### Iteration 2
+### Iteration 3
 - [ ] Deployment
 - [ ] Map
 - [ ] Multiple sport support 
 
 ## **How It Works**⚡
+To run this software, install the latest version of Python 3 [here](https://www.python.org/downloads/).
+Then:
+1. Clone this repo.
+2. Inside the repo, a virtual environment using `py -m venv venv` (Windows) or `python3 -m venv venv` (Mac OS/Linux)
+3. Activate the virtual environment with `venv/Scripts/activate` (Windows) or `source venv/bin/activate` (Mac OS/Linux). On Windows machines, it may be necessary to enable scripts by running PowerShell as Administrator and entering `set-executionpolicy unrestricted`.
+4. Install dependencies with `pip install -r requirements.txt`
+5. In the same directory as `settings.py`, create a file named `config.py` and enter this line in the file: `SECRET_KEY = '<secret_key>'` where `<secret_key>` can be any string. The secret key used in production is not shared on GitHub for security purposes.
+6. Update the database with `python manage.py makemigrations` and then `python manage.py migrate`.
+7. Run the server with `python manage.py runserver`.
 
-No need to install anything  !
+The server can be accessed locally at http://localhost:8000/.
+
+To create an admin user, use `python manage.py createsuperuser`. The admin panel can be accessed at http://localhost:8000/admin.
+
+
 > **The website is now deployed and live at** [Insert Website Here](https://youtu.be/dQw4w9WgXcQ)  !
 
 - You are welcomed with a home page which will showcase features and services provided by the web application.
@@ -40,8 +53,8 @@ No need to install anything  !
 
 ## Running Test Suite 🖥️
 
-- [Selenium](https://www.selenium.dev/) - We use Selenium for our front-end testing. The tool helps with automating web applications for workflow, prompt, login/logout section, and other testing purposes.  
-  To test run this command in your terminal (for Windows OS) 
+- [Selenium](https://www.selenium.dev/) - We use Selenium for our front-end testing. The tool helps with automating web applications for workflow, prompt, login/logout section, and other testing purposes. Back-end testing is done with the Django test suite, which integrates with Selenium.
+  To run tests, run this command in your terminal:
     ```python
     python manage.py test
     ```
