@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def register(request):
     #This one will create the actual user creation form
@@ -21,3 +22,7 @@ def register(request):
     }
 
     return render(request, 'users/registration-page.html', context)
+
+@login_required
+def profile(request):
+    return render(request, 'users/profile.html')
