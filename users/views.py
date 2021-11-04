@@ -22,3 +22,15 @@ def register(request):
     }
 
     return render(request, 'users/registration-page.html', context)
+
+    @login_required
+    def profile(request):
+        u_form = UserUpdateForm # updates usename and password
+        p_form = ProfileUpdateForm # updates profile picture
+
+        context = {
+            'u_form': u_form,
+            'p_form': p_form
+        }
+
+        return render(request, 'users/profile-page.html', context)
