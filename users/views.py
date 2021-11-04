@@ -39,7 +39,7 @@ def profile(request):
             u_form.save()
             p_form.save()
 
-            messages.success(request,f'Account updated for {username}!')
+            messages.success(request,f'Account updated!')
             return redirect('profile')
     else:
         # updates username and password
