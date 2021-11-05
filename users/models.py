@@ -8,7 +8,7 @@ from django.utils import timezone
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default ='default.png', upload_to='profile_pics')
-    height = models.CharField(default='0', max_length=10)
+    height = models.CharField(max_length = 10)
     #Date of Birth
     dob = models.DateTimeField(default=timezone.now)
     #ToDO (Kenneth)  Tempoary PlaceHolder for the sports colum
