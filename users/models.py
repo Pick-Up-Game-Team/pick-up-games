@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 
 # Create your models here.
