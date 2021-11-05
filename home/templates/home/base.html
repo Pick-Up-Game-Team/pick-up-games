@@ -55,7 +55,7 @@
         {% if user.is_authenticated %}
           <a class="py-2 d-none d-md-inline-block" href="{% url 'logout' %}">Log Out</a>
         {% else %}
-          <a class="py-2 d-none d-md-inline-block" href="{% url 'registration' %}">Register</a>
+          <a class="py-2 d-none d-md-inline-block" href="{% url 'registration-page' %}">Register</a>
           <a class="py-2 d-none d-md-inline-block" href="{% url 'login' %}">Login</a>
         {% endif %}
       </div>
