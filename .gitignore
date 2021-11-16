@@ -1,5 +1,6 @@
 # Add custom additions here
 config.py
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
