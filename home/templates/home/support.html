@@ -1,0 +1,245 @@
+{% extends "home/base.html" %} {% block content %}
+<!-- <img class = "rounded-circle article-img" src = "{{ post.author.profile.image.utl }}" /> -->
+
+<div class="container overflow-hidden py-5 bg-light">
+  <div class="row">
+    <div class="col-md-3">
+      <!-- Tips Widget -->
+      <!--===================================================-->
+      <div class="mar-btm">
+        <h4 class="text-thin">
+          <i class="fa fa-lightbulb-o fa-lg fa-fw text-warning"></i> Useful tips
+        </h4>
+        <p class="text-muted mar-top">
+          Sign up and login to become part of the biggest pick up games
+          community!
+        </p>
+
+        <!--div class="list-group bg-trans">
+          <a class="list-group-item" href="#"
+            ><span
+              class="badge badge-purple badge-icon badge-fw pull-left"
+            ></span>
+            Lorem ipsum</a
+          >
+          <a class="list-group-item" href="#"
+            ><span
+              class="badge badge-info badge-icon badge-fw pull-left"
+            ></span>
+            Consectetuer adipiscing</a
+          >
+          <a class="list-group-item" href="#"
+            ><span
+              class="badge badge-pink badge-icon badge-fw pull-left"
+            ></span>
+            Sed diam nonummy</a
+          >
+          <a class="list-group-item" href="#"
+            ><span
+              class="badge badge-success badge-icon badge-fw pull-left"
+            ></span>
+            Euismod tincidunt</a
+          >
+        </!--div>
+      
+      <!--===================================================-->
+      </div>
+      <hr />
+
+      <!-- Contact us widget -->
+      <!--===================================================-->
+      <div class="mar-btm">
+        <h4 class="text-thin">
+          <i class="fa fa-question-circle fa-lg fa-fw text-primary"></i> Can't
+          find the answer?
+        </h4>
+        <p class="text-muted mar-top">
+          Please don't hesitate to contact us if you have any questions or
+          comments.
+        </p>
+        <a href="#" class="btn btn-primary">Contact us</a>
+      </div>
+      <!--===================================================-->
+    </div>
+    <div class="col-md-9">
+      <div class="panel">
+        <div class="panel-body">
+          <!-- GENERAL -->
+          <!--===================================================-->
+          <h3 class="pad-all bord-btm text-thin">General</h3>
+          <div id="demo-gen-faq" class="panel-group accordion">
+            <div class="bord-no pad-top">
+              <!-- Question -->
+              <div class="text-semibold pad-hor text-lg">
+                <a
+                  href="#demo-gen-faq1"
+                  data-toggle="collapse"
+                  data-parent="#demo-gen-faq"
+                  >What is a ‘Pick Up Game’ ?</a
+                >
+              </div>
+
+              <!-- Answer -->
+              <div id="demo-gen-faq1" class="collapse in">
+                <div class="pad-all">
+                  A pick-up game is when a group of players get together and
+                  spontaneously start a game. Players usually know where and
+                  when to show up to a basketball court to play pick up
+                  basketball. You can play one game or a hundred games, there is
+                  no commitment to stay. You can come and go as you please.
+                </div>
+              </div>
+            </div>
+            <div class="bord-no pad-top">
+              <!-- Question -->
+              <div class="text-semibold pad-hor text-lg">
+                <a
+                  href="#demo-gen-faq2"
+                  data-toggle="collapse"
+                  data-parent="#demo-gen-faq"
+                  >What are the supported sports in the web application ?</a
+                >
+              </div>
+
+              <!-- Answer -->
+              <div id="demo-gen-faq2" class="collapse in">
+                <div class="pad-all">
+                  Currenty, we only support soccer, tennis, baseball, and
+                  especially basketball.
+                </div>
+              </div>
+            </div>
+            <div class="bord-no pad-top">
+              <!-- Question -->
+              <div class="text-semibold pad-hor text-lg">
+                <a
+                  href="#demo-gen-faq3"
+                  data-toggle="collapse"
+                  data-parent="#demo-gen-faq"
+                  >What are the rules ?</a
+                >
+              </div>
+
+              <!-- Answer -->
+              <div id="demo-gen-faq3" class="collapse">
+                <div class="pad-all">
+                  Unlike official games, some pick up games will have unwritten
+                  rules. Each sport and each court will have its own rule. See
+                  Sports and Courts for more information.
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--===================================================-->
+
+          <hr class="bord-no pad-all" />
+
+          <!-- ACCOUNT -->
+          <!--===================================================-->
+          <h3 class="pad-all bord-btm text-thin">Account</h3>
+          <div id="demo-acc-faq" class="panel-group accordion">
+            <div class="panel panel-trans pad-top">
+              <!-- Question -->
+              <div class="text-semibold pad-hor text-lg">
+                <a
+                  href="#demo-acc-faq1"
+                  data-toggle="collapse"
+                  data-parent="#demo-acc-faq"
+                  >How do I sign up ?</a
+                >
+              </div>
+
+              <!-- Answer -->
+              <div id="demo-acc-faq1" class="collapse in">
+                <div class="pad-all">
+                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
+                  diam nonummy nibh euismod tincidunt ut laoreet dolore magna
+                  aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
+                  nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+                  aliquip ex ea commodo consequat.
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-trans pad-top">
+              <!-- Question -->
+              <div class="text-semibold pad-hor text-lg">
+                <a
+                  href="#demo-acc-faq2"
+                  data-toggle="collapse"
+                  data-parent="#demo-acc-faq"
+                  >Manage acacount setting</a
+                >
+              </div>
+
+              <!-- Answer -->
+              <div id="demo-acc-faq2" class="collapse">
+                <div class="pad-all">
+                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
+                  diam nonummy nibh euismod tincidunt ut laoreet dolore magna
+                  aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
+                  nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+                  aliquip ex ea commodo consequat.
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-trans pad-top">
+              <!-- Question -->
+              <div class="text-semibold pad-hor text-lg">
+                <a
+                  href="#demo-acc-faq3"
+                  data-toggle="collapse"
+                  data-parent="#demo-acc-faq"
+                  >Report system</a
+                >
+              </div>
+
+              <!-- Answer -->
+              <div id="demo-acc-faq3" class="collapse">
+                <div class="pad-all">
+                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
+                  diam nonummy nibh euismod tincidunt ut laoreet dolore magna
+                  aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
+                  nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+                  aliquip ex ea commodo consequat.
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--===================================================-->
+
+          <hr class="bord-no pad-all" />
+
+          <!-- PAYMENT -->
+          <!--===================================================-->
+          <h3 class="pad-all bord-btm text-thin">Bug</h3>
+          <div id="demo-pym-faq" class="panel-group accordion">
+            <div class="bord-no pad-top">
+              <!-- Question -->
+              <div class="text-semibold pad-hor text-lg">
+                <a
+                  href="#demo-pym-faq1"
+                  data-toggle="collapse"
+                  data-parent="#demo-pym-faq"
+                  >How do I report a bug ?</a
+                >
+              </div>
+
+              <!-- Answer -->
+              <div id="demo-pym-faq1" class="collapse in">
+                <div class="pad-all">
+                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
+                  diam nonummy nibh euismod tincidunt ut laoreet dolore magna
+                  aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
+                  nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+                  aliquip ex ea commodo consequat.
+                </div>
+              </div>
+            </div>
+            <!--===================================================-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
