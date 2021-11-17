@@ -1,0 +1,11 @@
+{% extends "home/base.html" %}
+{% block content %}
+  <center>
+    {% if results %}
+      <h1> Results For: {{ results }} </h1>
+
+    {% else %}
+      <h1>no results for an empty search ...</h1>
+    {% endif %}
+  </center>
+{% endblock content %}
