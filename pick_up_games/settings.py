@@ -23,9 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECRET_KEY should be set as an environment variable for deployment
 SECRET_KEY = os.getenv('SECRET_KEY', 'local_supersecretkey')
+print(SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', True)
+print(DEBUG)
 
 ALLOWED_HOSTS = []
 
