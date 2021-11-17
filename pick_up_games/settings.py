@@ -25,8 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'local_supersecretkey')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-debug_var = os.getenv('DEBUG')
-DEBUG = debug_var if debug_var != None else True
+env = os.getenv('ENVIRONMENT')
+DEBUG = False if env == 'HEROKU' else True
 
 ALLOWED_HOSTS = []
 
