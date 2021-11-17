@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, UserReportForm
 
 def register(request):
     # This one will create the actual user creation form
@@ -53,3 +53,25 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
+@login_required
+def report_user(request):
+    # This one will create the actual user creation form
+    if request.method == 'POST':
+        form = UserReportForm(request.POST)
+
+        # Valid user data, print message and redirect to homepage
+        if form.is_valid():
+            form.save() # Saves the actual user form and does hashing stuff
+            username = form.cleaned_data.get('username')
+            messages.success(request,f'Account created for {username}!')
+            return redirect('login')
+    else:
+        form = UserReportForm()
+
+    context = {
+        'title': 'Registration',
+        'form': form,
+    }
+
+    return render(request, 'users/registration.html', context)

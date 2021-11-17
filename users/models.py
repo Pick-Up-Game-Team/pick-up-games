@@ -28,3 +28,12 @@ class Profile(models.Model):
             output_size = (300, 300)
             profileIMG.thumbnail(output_size)
             profileIMG.save(self.image.path)
+
+class Report(models.Model):
+    # Description of report
+    message = models.CharField(max_length=2000)
+    
+    # Many-to-one relationship; a User may be the author or reported_user
+    # of multiple Reports. When a related user is deleted, the Report will be deleted.
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    reported_user = models.ForeignKey(User, on_delete=models.CASCADE)
