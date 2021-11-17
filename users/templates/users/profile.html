@@ -1,0 +1,45 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+        <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Our Sidebar</h3>
+            <p class='text-muted'>You can put any information here you'd like.
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">Public Info</li>
+                <li class="list-group-item list-group-item-light">Account Management</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div class="content-section">
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}"><br>
+             <!-- This code prints out the user's information on the profile page -->
+                <h2 class="account-heading">Username: {{ user.username }}</h2><br>x
+                <p class="text-secondary"> Email : {{ user.email }}<br>
+                    Height: {{ user.profile.height }}<br>
+                    Date of Birth: {{ user.profile.dob }} <br>
+                    Sports: {{ user.profile.sports }}<br></p>
+            </div>
+        </div>
+        <form class="col-lg-6 offset-lg-3" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <fieldset class="form-group">
+            <legend class="mb-4">Profile Info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+          </fieldset>
+          <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update Profile</button>
+          </div>
+        </form>
+
+    </div>
+{% endblock content %}

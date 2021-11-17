@@ -53,7 +53,8 @@
 
         <!-- Display log out or register and log in items depending on log in status -->
         {% if user.is_authenticated %}
-          <a class="py-2 d-none d-md-inline-block" href="{% url 'logout' %}">Log Out</a>
+            <a class="py-2 d-none d-md-inline-block" href="{% url 'profile' %}">Profile</a> #Creates a link to the profile page in the nav bar
+            <a class="py-2 d-none d-md-inline-block" href="{% url 'logout' %}">Log Out</a>
         {% else %}
           <a class="py-2 d-none d-md-inline-block" href="{% url 'registration-page' %}">Register</a>
           <a class="py-2 d-none d-md-inline-block" href="{% url 'login' %}">Login</a>
