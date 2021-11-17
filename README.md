@@ -34,9 +34,8 @@ Then:
 2. Inside the repo, a virtual environment using `py -m venv venv` (Windows) or `python3 -m venv venv` (Mac OS/Linux)
 3. Activate the virtual environment with `venv/Scripts/activate` (Windows) or `source venv/bin/activate` (Mac OS/Linux). On Windows machines, it may be necessary to enable scripts by running PowerShell as Administrator and entering `set-executionpolicy unrestricted`.
 4. Install dependencies with `pip install -r requirements.txt`
-5. In the same directory as `settings.py`, create a file named `config.py` and enter this line in the file: `SECRET_KEY = '<secret_key>'` where `<secret_key>` can be any string. The secret key used in production is not shared on GitHub for security purposes.
-6. Update the database with `python manage.py makemigrations` and then `python manage.py migrate`.
-7. Run the server with `python manage.py runserver`.
+5. Update the database with `python manage.py makemigrations` and then `python manage.py migrate`.
+6. Run the server with `python manage.py runserver`.
 
 The server can be accessed locally at http://localhost:8000/.
 
