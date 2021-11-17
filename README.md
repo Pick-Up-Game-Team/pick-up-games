@@ -11,7 +11,7 @@
 
 > Pick Up Games is a web app wherein individuals can casually find local pick up games for their favorite sports. The web app allows users to view a map of the most popular local sports locations and match up with other players in the area. Supported sports will include basketball, soccer, tennis, and more.
 > - Easy and convenient ✔️  
-> - For everyone to meet up with other people who want to play pick up sports games! ⚽ ⚾ 🏀 🏉	 
+> - For everyone to meet up with other people who want to play pick up sports games!	 
 
 ## **Deployment**💥
 > **The website is now deployed and live at** [Insert Website Here](https://youtu.be/dQw4w9WgXcQ)  !
