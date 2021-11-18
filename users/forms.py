@@ -28,6 +28,11 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['image']
 
 class UserReportForm(forms.ModelForm):
+    """
+    Form users can use to submit user reports to be reviewed by admins
+    """
+
+    # Set form model and fields
     class Meta:
         model = Report
         fields = ['message']

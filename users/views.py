@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import User, Report
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, UserReportForm
 
 def register(request):
@@ -56,22 +57,43 @@ def profile(request):
 
 @login_required
 def report_user(request):
-    # This one will create the actual user creation form
-    if request.method == 'POST':
-        form = UserReportForm(request.POST)
+    """
+    View that displays form to report a user with a message for admins to review
+    """
+    # Get the username of the reported user from query string
+    author = request.user.username
+    target_user = request.GET.get('user', None)
 
-        # Valid user data, print message and redirect to homepage
+    # If no username is given, redirect to home page
+    if target_user == None:
+        return redirect('home-page')
+
+    # If there is no user that matches the passed username,
+    # output error and redirect to home page
+    if not User.objects.filter(username=target_user).exists():
+        messages.error(request,f'Report error: User not found.')
+        return redirect('home-page')
+
+    # Handle submissions
+    if request.method == 'POST':
+        report = Report(author=User.objects.get(username=author), 
+                        reported_user=User.objects.get(username=target_user))
+        
+        form = UserReportForm(request.POST, instance=report)
+
+        # Validate form data and save, confirmation message and redirect
         if form.is_valid():
-            form.save() # Saves the actual user form and does hashing stuff
-            username = form.cleaned_data.get('username')
-            messages.success(request,f'Account created for {username}!')
-            return redirect('login')
+            form.save()
+            messages.success(request,f'Thank you for submitting a user report.')
+            return redirect('home-page')
+    # GET request, display form page
     else:
         form = UserReportForm()
 
     context = {
-        'title': 'Registration',
+        'title': f'Report User',
         'form': form,
+        'target_user': target_user
     }
 
-    return render(request, 'users/registration.html', context)
+    return render(request, 'users/report.html', context)

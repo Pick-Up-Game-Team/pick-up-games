@@ -35,5 +35,5 @@ class Report(models.Model):
     
     # Many-to-one relationship; a User may be the author or reported_user
     # of multiple Reports. When a related user is deleted, the Report will be deleted.
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    reported_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
+    reported_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
