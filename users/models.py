@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from datetime import date
 from PIL import Image
 
 # Create your models here.
@@ -18,9 +19,9 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
-    def save(self):
+    def save(self, *args, **kwargs):
         # save image for editing
-        super().save()
+        super(Profile,self).save(*args, **kwargs)
         profileIMG = Image.open(self.image.path)
 
         # resizing image
@@ -28,5 +29,9 @@ class Profile(models.Model):
             output_size = (300, 300)
             profileIMG.thumbnail(output_size)
             profileIMG.save(self.image.path)
+
+    def calculate_age(self):
+        today = date.today()
+        return today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))
 
 

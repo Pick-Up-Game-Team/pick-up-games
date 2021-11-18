@@ -11,7 +11,7 @@
             <p class='text-muted'>You can put any information here you'd like.
               <ul class="list-group">
                 <a class="list-group-item list-group-item-light"  href="{% url  'profile' %}">Public Info</a>
-                <a class="list-group-item list-group-item-light" href = "{% url 'profile-management' %}" >Account Management</a>
+                <a class="list-group-item list-group-item-light" href="{% url 'profile-management' %}" >Account Management</a>
               </ul>
             </p>
           </div>
@@ -35,8 +35,8 @@
         <form class="col-lg-6 offset-lg-3" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <fieldset class="form-group">
-            <legend class="mb-4" >Profile Info</legend>
-            {{ p_form|crispy }}
+            <legend class="mb-4">Profile Info</legend>
+            {{ u_form|crispy }}
           </fieldset>
           <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Update Profile</button>

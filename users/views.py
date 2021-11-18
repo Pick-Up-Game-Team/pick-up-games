@@ -26,29 +26,48 @@ def register(request):
 
 @login_required
 def profile(request):
+    return render(request, 'users/public-page.html')
+
+def manage(request):
     if request.method == 'POST':
         # updates username and password
         u_form = UserUpdateForm(request.POST, instance=request.user)
 
-        # updates profile picture
-        p_form = ProfileUpdateForm(request.POST,
-                                   request.FILES,
-                                   instance=request.user.profile)
-
-        if u_form.is_valid() and p_form.is_valid:  # save if valid
+        if u_form.is_valid():  # save if valid
             u_form.save()
-            p_form.save()
 
             messages.success(request, f'Account updated!')
             return redirect('profile')
     else:
         # updates username and password
         u_form = UserUpdateForm(instance=request.user)
+
+    context = {
+        'u_form': u_form,
+    }
+
+    return render(request, 'users/account-management.html', context)
+
+
+def change(request):
+    if request.method == 'POST':
+
+        # updates profile picture and profile fields
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+
+        if p_form.is_valid:  # save if valid
+            p_form.save()
+
+            messages.success(request, f'Account updated!')
+            return redirect('profile')
+    else:
+
         # updates profile picture
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
     context = {
-        'u_form': u_form,
         'p_form': p_form
     }
 
