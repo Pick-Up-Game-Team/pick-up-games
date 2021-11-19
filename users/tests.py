@@ -8,30 +8,53 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from .models import Profile, Report
 from django.contrib.auth.models import User
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.keys import Keys
 from chromedriver_py import binary_path
 
-class TestLoginpage(TestCase):
+# Force DEBUG=True to prevent 500 server error (not sure why)
+@override_settings(DEBUG=True)
+class TestLoginpage(StaticLiveServerTestCase):
     def setUp(self):
+        """
+        Set up test environment (runs once per test function)
+        """
+        # Inherit setUp()
+        super().setUp()
+        
+        # Set up Chrome web driver and test client
+        self.client = Client()
+        self.driver = WebDriver(executable_path=binary_path)
+        self.wait = WebDriverWait(self.driver, 10)
+        self.driver.implicitly_wait(5)
+        self.driver.set_window_size(1936, 1056)
+        self.driver.get(f'{self.live_server_url}')
+        
+        # Define variables
         self.username = 'testuser'
         self.password = 'Testing123!'
 
-        # Set up browser
-        self.driver = webdriver.Chrome(executable_path=binary_path)
-        self.driver.get("http://localhost:8000/")
-        self.driver.set_window_size(1936, 1056)
-
         # Create account
-        user = User.objects.create_user(self.username, f'{self.username}@email.com', self.password)
+        user = User.objects.create_user(username=self.username,
+                                        email=f'{self.username}@email.com',
+                                        password=self.password)
 
     def tearDown(self):
+        """
+        Destroy test environment (run once per test function)
+        """
+        # Inherit tearDown()
+        super().tearDown()
         self.driver.quit()
 
     def test_loginpage(self):
-
+        """
+        Test login page functionality
+        """
+        
         # Go to login page
         self.driver.find_element_by_link_text('Login').click()
-        self.driver.implicitly_wait(0.1)
+        self.driver.implicitly_wait(1)
 
         # Test that the created user exists
         try:
@@ -49,13 +72,17 @@ class TestLoginpage(TestCase):
         self.driver.find_element(By.ID, "id_password").send_keys(self.password)
         self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
         
-        self.driver.implicitly_wait(0.1)
-
-        # Test that the user is logged in (there should not be a login or register button)
-        with self.assertRaises(NoSuchElementException):
-            self.driver.find_element_by_link_text('Login')
-        with self.assertRaises(NoSuchElementException):
-            self.driver.find_element_by_link_text('Register')
+        # Test that the user is logged in (there should be a log out and register link)
+        self.wait.until(
+            expected_conditions.element_to_be_clickable(
+                self.driver.find_element(By.LINK_TEXT, 'Log Out')
+            )
+        )
+        self.wait.until(
+            expected_conditions.element_to_be_clickable(
+                self.driver.find_element(By.LINK_TEXT, 'Profile')
+            )
+        )
 
         # Log out
         self.driver.find_element(By.LINK_TEXT, "Log Out").click()
@@ -64,8 +91,6 @@ class TestLoginpage(TestCase):
         # Test that the user is not logged in (there should not be a log out button)
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element_by_link_text('Log Out')
-
-
 
 class TestRegistrationTest(TestCase):
     def setUp(self):
@@ -118,7 +143,7 @@ class TestRegistrationTest(TestCase):
 class TestReportSystem(StaticLiveServerTestCase):
     def setUp(self):
         """
-        Set up test environment (run once per test function)
+        Set up test environment (runs once per test function)
         """
         # Inherit setUp()
         super().setUp()
