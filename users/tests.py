@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from chromedriver_py import binary_path
-from .models import Profile
+from .models import Profile, Report
 from django.contrib.auth.models import User
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions
@@ -118,5 +118,58 @@ class TestRegistrationTest(TestCase):
         # 17 | click | css=.btn |
         self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
 
+class TestReportSystem(TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome(executable_path=binary_path)
+        
+        self.username = 'testuser'
+        self.report_username = 'badguy'
+        self.password = 'Testing123!'
+        self.report_message = 'This guy is bad! Look at his name!!'
 
+        # Create account
+        self.user = User.objects.create_user(self.username,
+                                        f'{self.username}@email.com',
+                                        self.password)
+        
+        # Create account of user to be reported
+        self.report_user = User.objects.create_user(self.report_username,
+                                        f'{self.report_username}@email.com',
+                                        self.password)
 
+    def tearDown(self):
+        self.driver.quit()
+
+    def test_report(self):
+        
+        # Set up browser
+        self.driver.get("http://localhost:8000/login/")
+        self.driver.set_window_size(1936, 1056)
+        
+        # Enter and submit login credentials to log in
+        self.driver.find_element(By.ID, "id_username").send_keys(self.username)
+        self.driver.find_element(By.ID, "id_password").send_keys(self.password)
+        
+        self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
+        
+        # NOTE: this will redirect and fail if user is not logged in!
+        self.driver.get(f"http://localhost:8000/report/?user={self.report_user}")
+        
+        # Check for correct form title
+        form_title = self.driver.find_element(By.TAG_NAME, "legend").text
+        self.assertEqual(form_title, f"Report {self.report_username}")
+        
+        # Submit report with given message
+        self.driver.find_element(By.ID, "id_message").send_keys(self.report_message)
+        self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
+        
+        # Check the correctness of the report object
+        report_exists = Report.objects.filter(author=self.user,
+                                              reported_user=self.report_user,
+                                              message=self.report_message).exists()
+        self.assertTrue(report_exists)
+        
+        if report_exists:
+            Report.objects.get(author=self.user,
+                               reported_user=self.report_user,
+                               message=self.report_message).delete()
