@@ -29,6 +29,7 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    path('profile/my-invites/', user_views.invites_received_view, name='my-invites-view'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

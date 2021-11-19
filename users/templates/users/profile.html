@@ -21,10 +21,11 @@
           </div>
         </form>
     </div>
-
-    {% for friend in profile.get_friends %}
-        {{friend}}
-        <br>
-    {% endfor %}
-    Friends number: {{profile.get_friends_no}}
+    <ul>
+        {% for friend in profile.get_friends %}
+            <li>{{friend}}</li>
+        {% endfor %}
+    </ul>
+    <br>
+    Number of Friends: {{profile.get_friends_no}}
 {% endblock content %}

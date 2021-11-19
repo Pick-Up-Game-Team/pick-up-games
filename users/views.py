@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import Profile
+from .models import Profile, Relationship
 
 def register(request):
     # This one will create the actual user creation form
@@ -57,3 +57,10 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
+def invites_received_view(request):
+    profile = Profile.objects.get(user=request.user)
+    qs = Relationship.objects.invitations_received(profile)
+
+    context = {'qs': qs}
+    return render(request, 'users/my_invites.html', context)

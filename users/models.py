@@ -18,6 +18,7 @@ class Profile(models.Model):
 
     # friends stuff
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
+
     # bio = models.TextField()
 
     def get_friends(self):
@@ -48,12 +49,22 @@ STATUS_CHOICES = (
 )
 
 
+class RelationshipManager(models.Manager):
+    def invitations_received(self, receiver):
+        # qs - Query Set
+        qs = Relationship.objects.filter(receiver=receiver, status='send')
+        return qs
+
+
 class Relationship(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='receiver')
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    # Extending our existing manager
+    objects = RelationshipManager()
 
     # String representation of our Relationship model
     def __str__(self):
