@@ -1,0 +1,15 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+ List of All Profiles
+{% endblock title %}
+
+{% block content %}
+<ul>
+    {% for item in qs %}
+        <li>{{item}}</li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}
