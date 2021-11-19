@@ -28,11 +28,17 @@ def post_save_add_to_friends(sender, created, instance, **kwargs):
         sender_.save()
         receiver_.save()
 
-"""
+
 @receiver(post_save, sender=Relationship)
 def post_remove_from_friends(sender, created, instance, **kwargs):
     sender_ = instance.sender
     receiver_ = instance.receiver
-"""
+    if instance.status == 'delete':
+        sender_.friends.remove(receiver_.user)
+        receiver_.friends.remove(sender_.user)
+        sender_.save()
+        receiver_.save()
+        instance.delete()
+
 
 

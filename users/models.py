@@ -44,6 +44,7 @@ class Profile(models.Model):
 STATUS_CHOICES = (
     ('send', 'send'),
     ('accepted', 'accepted'),
+    ('delete', 'delete'),
 )
 
 
