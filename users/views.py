@@ -28,7 +28,7 @@ def register(request):
 @login_required
 def profile(request):
     # Allows us to use our the profile object in our template
-    profile = Profile.objects.get(user=request.user)
+    myprofile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
         # updates username and password
         u_form = UserUpdateForm(request.POST, instance = request.user)
@@ -53,7 +53,7 @@ def profile(request):
     context = {
         'u_form': u_form,
         'p_form': p_form,
-        'profile': profile
+        'profile': myprofile
     }
 
     return render(request, 'users/profile.html', context)

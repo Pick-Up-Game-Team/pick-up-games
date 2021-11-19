@@ -18,6 +18,7 @@ class Profile(models.Model):
 
     # friends stuff
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
+    # bio = models.TextField()
 
     def get_friends(self):
         return self.friends.all()
@@ -42,7 +43,7 @@ class Profile(models.Model):
 
 STATUS_CHOICES = (
     ('send', 'send'),
-    ('accepted', 'accepted')
+    ('accepted', 'accepted'),
 )
 
 
@@ -51,7 +52,8 @@ class Relationship(models.Model):
     receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='receiver')
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
     updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
 
+    # String representation of our Relationship model
     def __str__(self):
         return f"{self.sender}-{self.receiver}-{self.status}"
