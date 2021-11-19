@@ -37,7 +37,7 @@ def home(request):
     err_msg = ''
     message = ''
     message_class = ''
-
+    
     
     if request.method == 'POST':
         form = CityForm(request.POST)
@@ -62,8 +62,11 @@ def home(request):
         else:
             #message = 'City added successfully!'
             message_class = 'is-success'
-
+    else: #set baltimore as default value 
+        new_city = 'Baltimore'
     form = CityForm()
+    
+    
 
     cities = City.objects.filter(name=new_city)
 
