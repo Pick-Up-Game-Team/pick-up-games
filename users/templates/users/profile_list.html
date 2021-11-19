@@ -6,10 +6,37 @@
 {% endblock title %}
 
 {% block content %}
-<ul>
-    {% for item in qs %}
-        <li>{{item}}</li>
+    {% if is_empty %}
+        <h1>No Profiles to interact with</h1>
+    {% endif %}
+
+    {% for obj in object_list %}
+        <div class="ui segment">
+            <div class="ui grid">
+                <div class="row">
+                    <div class="three wide column">
+                        <img class="ui small circular image"src={{obj.image.url}}>
+                    </div>
+                    <div class="thirteen wide column">
+                        <h3>{{obj.user}}</h3>
+                        <p>{{obj.sports}}</p>
+                        <button class="ui primary button">See profile</button>
+                    </div>
+
+                    <!-- Adding Friend -->
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                    </form>
+
+                    <!-- Removing Friend -->
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                    </form>
+                </div>
+            </div>
+        </div>
     {% endfor %}
-</ul>
 
 {% endblock content %}
