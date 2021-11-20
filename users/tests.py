@@ -151,7 +151,7 @@ class TestReportSystem(StaticLiveServerTestCase):
         # Set up Chrome web driver and test client
         self.client = Client()
         self.driver = WebDriver(executable_path=binary_path)
-        #self.driver.implicitly_wait(5)
+        self.driver.implicitly_wait(5)
         
         # Define variables
         self.username = 'testuser'
@@ -216,6 +216,7 @@ class TestFriendRequests(StaticLiveServerTestCase):
         """
         Set up test environment (runs once per test function)
         """
+
         # Inherit setUp()
         super().setUp()
 
@@ -241,6 +242,9 @@ class TestFriendRequests(StaticLiveServerTestCase):
 
         self.driver.set_window_size(1936, 1056)
 
+        #slow this hoe down
+
+
     def tearDown(self):
         """
         Destroy test environment (run once per test function)
@@ -253,7 +257,8 @@ class TestFriendRequests(StaticLiveServerTestCase):
         # Test name: FriendRequestTest
         # Step # | name | target | value | comment
         # 1 | open | / |  |
-        self.driver.get("http://127.0.0.1:8000/")
+        #self.driver.get("http://127.0.0.1:8000/")
+        self.driver.get(f"{self.live_server_url}")
         # 2 | setWindowSize | 1382x886 |  |
         self.driver.set_window_size(1382, 886)
         # 3 | click | linkText=Login |  |
@@ -264,10 +269,13 @@ class TestFriendRequests(StaticLiveServerTestCase):
         self.driver.find_element(By.ID, "id_password").send_keys("fakepass112")
         # 6 | click | css=.btn |  |
         self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
+        self.driver.find_element(By.LINK_TEXT, "Profile").click()
         # 7 | click | css=form:nth-child(6) > input |  |
         self.driver.find_element(By.CSS_SELECTOR, "form:nth-child(6) > input").click()
         # 8 | click | css=.ui:nth-child(6) form > .ui |  |
-        self.driver.find_element(By.CSS_SELECTOR, ".ui:nth-child(6) form > .ui").click()
+        button_list = self.driver.find_elements(By.CSS_SELECTOR, "button")
+        for button in button_list:
+            click = button.click() if button.text == "Add to friends" else None
         # 9 | click | linkText=Log Out |  |
         self.driver.find_element(By.LINK_TEXT, "Log Out").click()
         # 10 | click | linkText=Login |  |
@@ -281,6 +289,7 @@ class TestFriendRequests(StaticLiveServerTestCase):
         # 14 | sendKeys | id=id_password | ${KEY_ENTER} |
         self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
         # 15 | click | css=.check |  |
+        self.driver.get(f"{self.live_server_url}/profile/my-invites/")
         self.driver.find_element(By.CSS_SELECTOR, ".check").click()
         # 16 | click | linkText=Log Out |  |
         self.driver.find_element(By.LINK_TEXT, "Log Out").click()
@@ -295,9 +304,11 @@ class TestFriendRequests(StaticLiveServerTestCase):
         # 21 | sendKeys | id=id_password | ${KEY_ENTER} |
         self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
         # 22 | click | css=form:nth-child(6) > input |  |
+        self.driver.find_element(By.LINK_TEXT, "Profile").click()
         self.driver.find_element(By.CSS_SELECTOR, "form:nth-child(6) > input").click()
         # 23 | click | css=.negative |  |
         self.driver.find_element(By.CSS_SELECTOR, ".negative").click()
         # 24 | click | linkText=Log Out |  |
         self.driver.find_element(By.LINK_TEXT, "Log Out").click()
+
 
