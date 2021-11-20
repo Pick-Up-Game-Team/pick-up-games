@@ -1,0 +1,11 @@
+﻿rec_id,name,address,zip_code,"city, state",type,amenities,Latitude,Longitude
+2,Bentalou,222 N Bentalou St,21223,"Baltimore, MD",School wing,Basketball,39.29254283,-76.65321859
+3,C.C. Jackson,4910 Park Heights Ave,21215,"Baltimore, MD",School wing,"Playground, basketball, pool, baseball",39.3468698,-76.67311104
+8,Chick Webb,623 N Eden St,21205,"Baltimore, MD",Free standing,Basketball,39.29724883,-76.59940231
+9,Coldstream,1401 Fillmore St,21218,"Baltimore, MD",Free standing,"Playground, basketball, pool",39.32148098,-76.5998336
+10,Collington Square,1409 N Collington Ave,21213,"Baltimore, MD",School wing,Basketball,39.30729349,-76.58585152
+12,Curtis Bay,1630 Filbert St,21226,"Baltimore, MD",Free standing,Basketball,39.2258646,-76.58757513
+13,DeWees,5501 Ivanhoe Avenue,21212,"Baltimore, MD",Free standing,"Basketball, football",39.35655767,-76.60366895
+14,Northwood,1517 Winford Rd,21239,"Baltimore, MD",School wing,"Basketball, football",39.35308989,-76.58802661
+15,Edgewood-Lyndhurst,835 Allendale St,21229,"Baltimore, MD",Free standing,Basketball,39.29750865,-76.67770973
+16,Farring-Baybrook,4501 Farring Ct,21225,"Baltimore, MD",Free standing,Basketball,39.22525296,-76.59709549

@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from home.views import home
 from users import views as user_views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -23,11 +24,19 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
-    #path(register/'', include('users.urls')),
+    path('report/', user_views.report_user, name='report'),
     path('register/', user_views.register, name='registration'),
     path('profile/', user_views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    path('profile/my-invites/', user_views.invites_received_view, name='my-invites-view'),
+    path('profile/all-profiles', user_views.ProfileListView.as_view(), name='all-profiles-view'),
+    path('profile/to-invite', user_views.invite_profiles_list_view, name='invite-profiles-view'),
+    path('profile/send-invite', user_views.send_invitation, name='send-invite'),
+    path('profile/remove-friend', user_views.remove_from_friends, name='remove-friend'),
+    path('my-invites-view/accept/', user_views.accept_invitation, name='accept-invite'),
+    path('my-invites-view/reject/', user_views.reject_invitation, name='reject-invite'),
 ]
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
