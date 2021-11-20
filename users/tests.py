@@ -151,7 +151,7 @@ class TestReportSystem(StaticLiveServerTestCase):
         # Set up Chrome web driver and test client
         self.client = Client()
         self.driver = WebDriver(executable_path=binary_path)
-        self.driver.implicitly_wait(5)
+        #self.driver.implicitly_wait(5)
         
         # Define variables
         self.username = 'testuser'
@@ -208,3 +208,96 @@ class TestReportSystem(StaticLiveServerTestCase):
                                               reported_user=self.report_user,
                                               message=self.report_message).exists()
         self.assertTrue(report_exists)
+
+
+@override_settings(DEBUG=True)
+class TestFriendRequests(StaticLiveServerTestCase):
+    def setUp(self):
+        """
+        Set up test environment (runs once per test function)
+        """
+        # Inherit setUp()
+        super().setUp()
+
+        # Set up Chrome web driver and test client
+        self.client = Client()
+        self.driver = WebDriver(executable_path=binary_path)
+        self.driver.implicitly_wait(5)
+
+        # Define variables
+        self.username1 = 'WillTestUser1'
+        self.password1 = 'fakepass112'
+        self.username2 = 'WillTestUser2'
+        self.password2 = 'fakepass113'
+
+        # Create account
+        self.user1 = User.objects.create_user(username=self.username1,
+                                             email=f'{self.username1}@email.com',
+                                             password=self.password1)
+        self.user2 = User.objects.create_user(username=self.username2,
+                                              email=f'{self.username2}@email.com',
+                                              password=self.password2)
+
+
+        self.driver.set_window_size(1936, 1056)
+
+    def tearDown(self):
+        """
+        Destroy test environment (run once per test function)
+        """
+        # Inherit tearDown()
+        super().tearDown()
+        self.driver.quit()
+
+    def test_friendRequestTest(self):
+        # Test name: FriendRequestTest
+        # Step # | name | target | value | comment
+        # 1 | open | / |  |
+        self.driver.get("http://127.0.0.1:8000/")
+        # 2 | setWindowSize | 1382x886 |  |
+        self.driver.set_window_size(1382, 886)
+        # 3 | click | linkText=Login |  |
+        self.driver.find_element(By.LINK_TEXT, "Login").click()
+        # 4 | type | id=id_username | WillTestUser1 |
+        self.driver.find_element(By.ID, "id_username").send_keys("WillTestUser1")
+        # 5 | type | id=id_password | fakepass112 |
+        self.driver.find_element(By.ID, "id_password").send_keys("fakepass112")
+        # 6 | click | css=.btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
+        # 7 | click | css=form:nth-child(6) > input |  |
+        self.driver.find_element(By.CSS_SELECTOR, "form:nth-child(6) > input").click()
+        # 8 | click | css=.ui:nth-child(6) form > .ui |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".ui:nth-child(6) form > .ui").click()
+        # 9 | click | linkText=Log Out |  |
+        self.driver.find_element(By.LINK_TEXT, "Log Out").click()
+        # 10 | click | linkText=Login |  |
+        self.driver.find_element(By.LINK_TEXT, "Login").click()
+        # 11 | type | id=id_username | WillTestUser2 |
+        self.driver.find_element(By.ID, "id_username").send_keys("WillTestUser2")
+        # 12 | click | id=id_password |  |
+        self.driver.find_element(By.ID, "id_password").click()
+        # 13 | type | id=id_password | fakepass113 |
+        self.driver.find_element(By.ID, "id_password").send_keys("fakepass113")
+        # 14 | sendKeys | id=id_password | ${KEY_ENTER} |
+        self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
+        # 15 | click | css=.check |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".check").click()
+        # 16 | click | linkText=Log Out |  |
+        self.driver.find_element(By.LINK_TEXT, "Log Out").click()
+        # 17 | click | linkText=Login |  |
+        self.driver.find_element(By.LINK_TEXT, "Login").click()
+        # 18 | type | id=id_username | WillTestUser1 |
+        self.driver.find_element(By.ID, "id_username").send_keys("WillTestUser1")
+        # 19 | click | id=id_password |  |
+        self.driver.find_element(By.ID, "id_password").click()
+        # 20 | type | id=id_password | fakepass112 |
+        self.driver.find_element(By.ID, "id_password").send_keys("fakepass112")
+        # 21 | sendKeys | id=id_password | ${KEY_ENTER} |
+        self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
+        # 22 | click | css=form:nth-child(6) > input |  |
+        self.driver.find_element(By.CSS_SELECTOR, "form:nth-child(6) > input").click()
+        # 23 | click | css=.negative |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".negative").click()
+        # 24 | click | linkText=Log Out |  |
+        self.driver.find_element(By.LINK_TEXT, "Log Out").click()
+
