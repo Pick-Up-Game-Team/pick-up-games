@@ -71,6 +71,19 @@ class Profile(models.Model):
             profileIMG.thumbnail(output_size)
             profileIMG.save(self.image.path)
 
+class Report(models.Model):
+    # Description of report
+    message = models.CharField(max_length=2000)
+
+    # Many-to-one relationship; a User may be the author or reported_user
+    # of multiple Reports. When a related user is deleted, the Report will be deleted.
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
+    reported_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
+
+    # Report objects will be displayed as "Report - <reported_user>"
+    def __str__(self):
+        return f'Report - {self.reported_user.username}'
+
 
 STATUS_CHOICES = (
     ('send', 'send'),

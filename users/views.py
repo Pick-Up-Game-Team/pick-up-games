@@ -7,6 +7,9 @@ from django.views.generic import ListView
 from django.contrib.auth.models import User
 from django.db.models import Q
 
+from django.contrib.auth.models import User
+from .models import Report
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, UserReportForm
 
 def register(request):
     # This one will create the actual user creation form
@@ -63,6 +66,48 @@ def profile(request):
 
     return render(request, 'users/profile.html', context)
 
+@login_required
+def report_user(request):
+    """
+    View that displays form to report a user with a message for admins to review
+    """
+    # Get the username of the reported user from query string
+    author = request.user.username
+    target_user = request.GET.get('user', None)
+
+    # If no username is given, redirect to home page
+    if target_user == None:
+        return redirect('home-page')
+
+    # If there is no user that matches the passed username,
+    # output error and redirect to home page
+    if not User.objects.filter(username=target_user).exists():
+        messages.error(request,f'Report error: User not found.')
+        return redirect('home-page')
+
+    # Handle submissions
+    if request.method == 'POST':
+        report = Report(author=User.objects.get(username=author),
+                        reported_user=User.objects.get(username=target_user))
+
+        form = UserReportForm(request.POST, instance=report)
+
+        # Validate form data and save, confirmation message and redirect
+        if form.is_valid():
+            form.save()
+            messages.success(request,f'Thank you for submitting a user report.')
+            return redirect('home-page')
+    # GET request, display form page
+    else:
+        form = UserReportForm()
+
+    context = {
+        'title': f'Report User',
+        'form': form,
+        'target_user': target_user
+    }
+
+    return render(request, 'users/report.html', context)
 
 def invites_received_view(request):
     aprofile = Profile.objects.get(user=request.user)
