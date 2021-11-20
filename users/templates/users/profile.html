@@ -28,5 +28,7 @@
     </ul>
     <br>
     Number of Friends: {{profile.get_friends_no}}
-
+    <form action="{% url 'all-profiles-view' %}">
+        <input type="submit" value="Manage Friends" />
+    </form>
 {% endblock content %}
