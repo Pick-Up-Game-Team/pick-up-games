@@ -5,6 +5,7 @@ from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile, Relationship
 from django.views.generic import ListView
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 
 def register(request):
@@ -139,3 +140,23 @@ def send_invitation(request):
         # Keeps us on same page
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profile:profile')
+
+
+def remove_from_friends(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        user = request.user
+        sender = Profile.objects.get(user=user)
+        receiver = Profile.objects.get(pk=pk)
+
+        # Don't know who the remover is -> more complicated lookup
+
+        rel = Relationship.objects.get(
+            (Q(sender=sender) & Q(receiver=receiver))    # Case 1: We invited someone, they accepted, now we remove them
+            | (Q(sender=receiver) & Q(receiver=sender))  # Case 2: Someone invited us, we accepted, now we remove them
+        )
+        rel.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('profile:profile')
+
+

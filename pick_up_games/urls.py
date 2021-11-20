@@ -33,6 +33,7 @@ urlpatterns = [
     path('profile/all-profiles', user_views.ProfileListView.as_view(), name='all-profiles-view'),
     path('profile/to-invite', user_views.invite_profiles_list_view, name='invite-profiles-view'),
     path('profile/send-invite', user_views.send_invitation, name='send-invite'),
+    path('profile/remove-friend', user_views.remove_from_friends, name='remove-friend'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
