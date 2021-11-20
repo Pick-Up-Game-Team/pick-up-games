@@ -86,10 +86,12 @@ def profiles_list_view(request):
     context = {'qs': qs}
     return render(request, 'users/profile_list.html', context)
 
+
 class ProfileListView(ListView):
     model = Profile
     template_name = 'users/profile_list.html'
-    #context_object_name = 'qs'
+
+    # context_object_name = 'qs'
 
     def get_queryset(self):
         qs = Profile.objects.get_all_profiles(self.request.user)
@@ -122,3 +124,18 @@ class ProfileListView(ListView):
         if len(self.get_queryset()) == 0:
             context['is_empty'] = True
         return context
+
+
+def send_invitation(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        user = request.user
+        sender = Profile.objects.get(user=user)
+        receiver = Profile.objects.get(pk=pk)
+
+        # create a relationship
+        rel = Relationship.objects.create(sender=sender, receiver=receiver, status='send')
+
+        # Keeps us on same page
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('profile:profile')

@@ -32,6 +32,7 @@ urlpatterns = [
     path('profile/my-invites/', user_views.invites_received_view, name='my-invites-view'),
     path('profile/all-profiles', user_views.ProfileListView.as_view(), name='all-profiles-view'),
     path('profile/to-invite', user_views.invite_profiles_list_view, name='invite-profiles-view'),
+    path('profile/send-invite', user_views.send_invitation, name='send-invite'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

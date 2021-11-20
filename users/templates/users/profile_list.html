@@ -24,19 +24,17 @@
 
 
                         <!-- Adding Friend -->
-                        <form action="" method="POST">
+                        {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
+                        <form action="{% url 'send-invite' %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="profile_pk" value={{obj.pk}}>
-
                             <!-- No friend request between the 2 users -->
-                            {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
-                                <button type="submit" class="ui positive basic button">
-                                    <i class="plus square icon">  </i>
-
-                                    Add to friends
-                                </button>
-                            {% endif %}
+                            <button type="submit" class="ui positive basic button">
+                                <i class="plus square icon">  </i>
+                                Add to friends
+                            </button>
                         </form>
+                        {% endif %}
 
                         <!-- There's a pending invite that we sent to this user -->
                         {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
@@ -47,18 +45,16 @@
                         {% endif %}
 
                         <!-- Removing Friend -->
+                        {% if request.user in obj.friends.all %}
                         <form action="" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="profile_pk" value={{obj.pk}}>
-
-                            {% if request.user in obj.friends.all %}
-                                <button type="submit" class="ui negative basic button">
-                                    <i class="plus square icon"></i>
-                                    Remove from friends
-                                </button>
-                            {% endif %}
-
+                            <button type="submit" class="ui negative basic button">
+                                <i class="plus square icon"></i>
+                                Remove from friends
+                            </button>
                         </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
