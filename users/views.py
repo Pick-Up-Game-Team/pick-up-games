@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
@@ -10,6 +10,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from .models import Report
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, UserReportForm
+
 
 def register(request):
     # This one will create the actual user creation form
@@ -66,6 +67,7 @@ def profile(request):
 
     return render(request, 'users/profile.html', context)
 
+
 @login_required
 def report_user(request):
     """
@@ -82,7 +84,7 @@ def report_user(request):
     # If there is no user that matches the passed username,
     # output error and redirect to home page
     if not User.objects.filter(username=target_user).exists():
-        messages.error(request,f'Report error: User not found.')
+        messages.error(request, f'Report error: User not found.')
         return redirect('home-page')
 
     # Handle submissions
@@ -95,7 +97,7 @@ def report_user(request):
         # Validate form data and save, confirmation message and redirect
         if form.is_valid():
             form.save()
-            messages.success(request,f'Thank you for submitting a user report.')
+            messages.success(request, f'Thank you for submitting a user report.')
             return redirect('home-page')
     # GET request, display form page
     else:
@@ -109,12 +111,42 @@ def report_user(request):
 
     return render(request, 'users/report.html', context)
 
+
 def invites_received_view(request):
     aprofile = Profile.objects.get(user=request.user)
     qs = Relationship.objects.invitations_received(aprofile)
+    results = list(map(lambda x: x.sender, qs))
+    is_empty = False
+    if len(results) == 0:
+        is_empty = True
 
-    context = {'qs': qs}
+    context = {
+        'qs': results,
+        'is_empty': is_empty,
+    }
     return render(request, 'users/my_invites.html', context)
+
+
+def accept_invitation(request):
+    if request.method == "POST":
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(pk=pk)
+        receiver = Profile.objects.get(user=request.user)
+        rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
+        if rel.status == 'send':
+            rel.status = 'accepted'
+            rel.save()
+    return redirect('my-invites-view')
+
+
+def reject_invitation(request):
+    if request.method == "POST":
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(pk=pk)
+        receiver = Profile.objects.get(user=request.user)
+        rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
+        rel.delete()
+    return redirect('my-invites-view')
 
 
 def invite_profiles_list_view(request):
@@ -197,11 +229,9 @@ def remove_from_friends(request):
         # Don't know who the remover is -> more complicated lookup
 
         rel = Relationship.objects.get(
-            (Q(sender=sender) & Q(receiver=receiver))    # Case 1: We invited someone, they accepted, now we remove them
+            (Q(sender=sender) & Q(receiver=receiver))  # Case 1: We invited someone, they accepted, now we remove them
             | (Q(sender=receiver) & Q(receiver=sender))  # Case 2: Someone invited us, we accepted, now we remove them
         )
         rel.delete()
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profile:profile')
-
-

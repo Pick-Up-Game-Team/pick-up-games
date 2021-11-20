@@ -34,6 +34,8 @@ urlpatterns = [
     path('profile/to-invite', user_views.invite_profiles_list_view, name='invite-profiles-view'),
     path('profile/send-invite', user_views.send_invitation, name='send-invite'),
     path('profile/remove-friend', user_views.remove_from_friends, name='remove-friend'),
+    path('my-invites-view/accept/', user_views.accept_invitation, name='accept-invite'),
+    path('my-invites-view/reject/', user_views.reject_invitation, name='reject-invite'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
