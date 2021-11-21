@@ -1,11 +1,27 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-        <main role="main" class="container">
+<main role="main" class="container-fluid">
       <div class="row">
-        <div class="col-md-8">
+          <div class ="col-md-4"></div>
+    <div class ="col-md-4">
+    <div class="content-section" >
+        <div class="media">
+
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}"><br>
+             <!-- This code prints out the user's information on the profile page -->
+                <p class="text-secondary"> <br>
+                    <strong><font size = 5>{{ user.username }}</font></strong><br>
+                    Height: {{ user.profile.height }}<br>
+                    Date of Birth: {{ user.profile.dob }} <br>
+                    Sports: {{ user.profile.sports }}<br>
+                    Age: {{ user.profile.calculate_age }} <br>
+
+                </p>
+            </div>
         </div>
-        <div class="col-md-4">
+    </div>
+          <div class="col-md-4">
           <div class="content-section">
             <h3>Our Sidebar</h3>
             <p class='text-muted'>You can put any information here you'd like.
@@ -17,22 +33,15 @@
           </div>
         </div>
       </div>
-    </main>
-    <div class="content-section">
-        <div class="media">
-            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}"><br>
-             <!-- This code prints out the user's information on the profile page -->
-                <h2 class="account-heading">Username: {{ user.username }}</h2><br>
-                <p class="text-secondary"> <br>
-                    Height: {{ user.profile.height }}<br>
-                    Date of Birth: {{ user.profile.dob }} <br>
-                    Sports: {{ user.profile.sports }}<br>
-                    Age: {{ user.profile.calculate_age }} <br>
+      </div>
+    <div class ="row">
+        <div class ="col-md-8">
+              </div>
+           <div class ="col-md-4">
 
-                </p>
-            </div>
-        </div>
-    <a href="{% url  'public-change' %}"> Change Public Info:</a>
-
+         <a href="{% url  'public-change' %}"> Change Public Info:</a>
+               </div>
     </div>
+
+</main>
 {% endblock content %}
