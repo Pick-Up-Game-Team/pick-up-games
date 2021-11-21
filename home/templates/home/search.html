@@ -2,11 +2,18 @@
 {% block content %}
   <center>
     {% if results %}
-      <h1> Results For: {{ results }} </h1>
+      <h3> results for: {{ results }} </h3>
 
       <br/>
       {% for query in queries %}
-        {{ query }} <br/>
+        <a href="{% url 'profile_detail' query.username %}">
+          {% if query.is_active %}
+            {{ query }} - Online
+          {% else %}
+            {{ query }} - Offline
+          {% endif %}
+        </a>
+      <br/>
       {% endfor %}
 
     {% else %}
