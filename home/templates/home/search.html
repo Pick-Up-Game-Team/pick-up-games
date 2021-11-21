@@ -4,6 +4,11 @@
     {% if results %}
       <h1> Results For: {{ results }} </h1>
 
+      <br/>
+      {% for query in queries %}
+        {{ query }} <br/>
+      {% endfor %}
+
     {% else %}
       <h1>no results for an empty search ...</h1>
     {% endif %}
