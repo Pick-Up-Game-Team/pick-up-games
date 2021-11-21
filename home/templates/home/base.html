@@ -93,6 +93,16 @@
         >
         {% endif %}
       </div>
+
+      <!-- Search Bar Implementation -->
+      <form class="d-flex" method=POST action="{% url 'search' %}">
+        {% csrf_token %}
+        <input class="form-control me-2"
+        type="search" placeholder="Search"
+        aria-label="Search" name="results">
+        <button class="btn btn-outline-secondary"
+        type="submit">Search</button>
+      </form>
     </nav>
 
     <!-- Display messages if they exist -->

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import User
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile, Relationship
 from django.views.generic import ListView
@@ -67,6 +68,12 @@ def profile(request):
 
     return render(request, 'users/profile.html', context)
 
+def profile_detail(request, username):
+    context = {
+        'target_user': User.objects.get(username=username)
+    }
+
+    return render(request, 'users/profile_detail.html', context)
 
 @login_required
 def report_user(request):
