@@ -27,26 +27,26 @@ def home(request):
         <p style="text-align:center;"><b>Address: </b> {location_info['address']}</p>
             """
         folium.Marker([location_info["Latitude"], location_info["Longitude"]], popup=folium.Popup(text, max_width = 400)).add_to(m)
-   
+
     #tooltip = location_info['type']
-    
+
     #39.25484512917189, -76.71139655345341
-    
+
     APIKEY = 'b6e19d92daea6f8d6c533d397f7ef2c5'
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=' + APIKEY
 
     err_msg = ''
     message = ''
     message_class = ''
-    
-    
+
+
     if request.method == 'POST':
         form = CityForm(request.POST)
 
         if form.is_valid():
             new_city = form.cleaned_data['name']
             existing_city_count = City.objects.filter(name=new_city).count()
-            
+
             if existing_city_count == 0:
                 r = requests.get(url.format(new_city)).json()
 
@@ -63,11 +63,11 @@ def home(request):
         else:
             #message = 'City added successfully!'
             message_class = 'is-success'
-    else: #set baltimore as default value 
+    else: #set baltimore as default value
         new_city = 'Baltimore'
     form = CityForm()
-    
-    
+
+
 
     cities = City.objects.filter(name=new_city)
 
@@ -90,7 +90,7 @@ def home(request):
 
     return render(request, 'home/home-page.html',
             {'my_map' : m ,
-            'weather_data' : weather_data, 
+            'weather_data' : weather_data,
             'form' : form,
             'message' : message,
             'message_class' : message_class
@@ -99,9 +99,11 @@ def home(request):
 def search(request):
     if request.method == "POST":
         results = request.POST['results']
+        # shows the search results for the query
         queries = User.objects.filter(username__contains=results)
         return render(request, 'home/search.html', {'results':results, 'queries':queries})
     else:
+        # no results found
         return render(request, 'home/search.html')
 
 def support(request):
