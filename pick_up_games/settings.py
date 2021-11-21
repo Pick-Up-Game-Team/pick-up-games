@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import django_heroku
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -142,3 +143,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'home-page'
 # If accessing a restricted page, redirect to login page
 LOGIN_URL = 'login'
+
+# Allows the error message tag to use Bootstrap
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}

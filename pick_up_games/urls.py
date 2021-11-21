@@ -24,11 +24,13 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
-
+    path('report/', user_views.report_user, name='report'),
     path('register/', user_views.register, name='registration'),
     path('profile/', include('users.urls')) ,
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    path('my-invites-view/accept/', user_views.accept_invitation, name='accept-invite'),
+    path('my-invites-view/reject/', user_views.reject_invitation, name='reject-invite'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

@@ -10,9 +10,9 @@
     />
 
     {% if title %}
-      <title>Pick Up Games - {{ title }}</title>
+    <title>Pick Up Games - {{ title }}</title>
     {% else %}
-      <title>Pick Up Games</title>
+    <title>Pick Up Games</title>
     {% endif %}
 
     <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico" />
@@ -81,21 +81,31 @@
             <a class="py-2 d-none d-md-inline-block" href="{% url 'profile' %}">Profile</a> #Creates a link to the profile page in the nav bar
             <a class="py-2 d-none d-md-inline-block" href="{% url 'logout' %}">Log Out</a>
         {% else %}
-          <a class="py-2 d-none d-md-inline-block" href="{% url 'registration' %}">Register</a>
-          <a class="py-2 d-none d-md-inline-block" href="{% url 'login' %}">Login</a>
+        <a class="py-2 d-none d-md-inline-block" href="{% url 'registration' %}"
+          >Register</a
+        >
+        <a class="py-2 d-none d-md-inline-block" href="{% url 'login' %}"
+          >Login</a
+        >
         {% endif %}
       </div>
+
+      <!-- Search Bar Implementation -->
+      <form class="d-flex" method=POST action="{% url 'search' %}">
+        {% csrf_token %}
+        <input class="form-control me-2"
+        type="search" placeholder="Search"
+        aria-label="Search" name="results">
+        <button class="btn btn-outline-secondary"
+        type="submit">Search</button>
+      </form>
     </nav>
 
     <!-- Display messages if they exist -->
     <div class="container-fluid">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
+      {% if messages %} {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %} {% endif %}
     </div>
 
     <!-- Individual page content goes here -->

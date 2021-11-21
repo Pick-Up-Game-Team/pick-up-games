@@ -1,0 +1,23 @@
+{% extends "home/base.html" %}
+{% block content %}
+  <center>
+    {% if results %}
+      <h3> results for: {{ results }} </h3>
+
+      <br/>
+      {% for query in queries %}
+        <a href="{% url 'profile_detail' query.username %}">
+          {% if query.is_active %}
+            {{ query }} - Online
+          {% else %}
+            {{ query }} - Offline
+          {% endif %}
+        </a>
+      <br/>
+      {% endfor %}
+
+    {% else %}
+      <h1>no results for an empty search ...</h1>
+    {% endif %}
+  </center>
+{% endblock content %}
