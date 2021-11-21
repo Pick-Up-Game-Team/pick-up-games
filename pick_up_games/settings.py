@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from . import config
-
+import os
+import django_heroku
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,11 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.SECRET_KEY
+# SECRET_KEY should be set as an environment variable for deployment
+SECRET_KEY = os.getenv('SECRET_KEY', 'local_supersecretkey')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+env = os.getenv('ENVIRONMENT')
+DEBUG = False if env == 'HEROKU' else True
 
 ALLOWED_HOSTS = []
 
@@ -123,7 +126,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+django_heroku.settings(locals())
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -136,3 +144,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'home-page'
 # If accessing a restricted page, redirect to login page
 LOGIN_URL = 'login'
+
+# Allows the error message tag to use Bootstrap
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
