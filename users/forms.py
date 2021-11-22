@@ -28,10 +28,14 @@ class UserUpdateForm(forms.ModelForm):
 
 # This is for updating the profile fields and picture
 class ProfileUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['height'].label = "Height (in inches)"
+        self.fields['dob'].label = "Date of Birth"
+    
     class Meta:
         model = Profile
         fields = ['image','height', 'dob','sports',]
-
 
 
 class UserReportForm(forms.ModelForm):
