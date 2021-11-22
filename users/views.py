@@ -1,31 +1,23 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import User
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import Profile, Relationship
 from django.views.generic import ListView
-from django.contrib.auth.models import User
 from django.db.models import Q
-
-from django.contrib.auth.models import User
-from .models import Report
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, UserReportForm
-
+from .models import User, Profile, Relationship, Report
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, UserCreationForm, UserReportForm
 
 def register(request):
-    # This one will create the actual user creation form
+    #This one will create the actual user creation form
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-
-        # Valid user data, print message and redirect to homepage
+        form = UserCreationForm(request.POST)
+        #Valid user data, print message and redirect to homepage
         if form.is_valid():
-            form.save()  # Saves the actual user form and does hashing stuff
+            form.save() #Saves the actual user form and does hashing stuff
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}!')
             return redirect('login')
     else:
-        form = UserRegisterForm()
+        form = UserCreationForm()
 
     context = {
         'title': 'Registration',
