@@ -37,6 +37,10 @@ def register(request):
 
 @login_required
 def profile(request):
+    return render(request, 'users/public-page.html')
+"""
+@login_required
+def profile(request):
     # Allows us to use our the profile object in our template
     myprofile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
@@ -67,6 +71,56 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+    """
+def manage(request):
+    myprofile = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
+        # updates username and password
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+
+        if u_form.is_valid():  # save if valid
+            u_form.save()
+
+            messages.success(request, f'Account updated!')
+            return redirect('profile')
+    else:
+        # updates username and password
+        u_form = UserUpdateForm(instance=request.user)
+
+    context = {
+        'u_form': u_form,
+        'profile': myprofile
+    }
+
+    return render(request, 'users/account-management.html', context)
+
+
+def change(request):
+    myprofile = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
+
+        # updates profile picture and profile fields
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+
+        if p_form.is_valid:  # save if valid
+            p_form.save()
+
+            messages.success(request, f'Account updated!')
+            return redirect('profile')
+    else:
+
+        # updates profile picture
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'p_form': p_form,
+        'profile': myprofile
+    }
+
+    return render(request, 'users/profile.html', context)
+
 
 def profile_detail(request, username):
     context = {

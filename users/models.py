@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
+from datetime import date
 from PIL import Image
 from django.db.models import Q
 
@@ -39,12 +40,12 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.png', upload_to='profile_pics')
-    height = models.CharField(default='0', max_length=10)
-    # Date of Birth
+    image = models.ImageField(default ='default.png', upload_to='profile_pics')
+    height = models.CharField(default='15', max_length=10)
+    #Date of Birth
     dob = models.DateTimeField(default=timezone.now)
-    # ToDO (Kenneth)  Tempoary PlaceHolder for the sports colum
-    sports = models.TextField(default='No Sports Played')
+    #ToDO (Kenneth)  Tempoary PlaceHolder for the sports colum
+    sports = models.TextField(default = 'No Sports Played')
 
     # friends stuff
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
@@ -62,7 +63,7 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         # save image for editing
-        super().save(*args, **kwargs)
+        super(Profile,self).save(*args, **kwargs)
         profileIMG = Image.open(self.image.path)
 
         # resizing image
@@ -70,6 +71,12 @@ class Profile(models.Model):
             output_size = (300, 300)
             profileIMG.thumbnail(output_size)
             profileIMG.save(self.image.path)
+
+    def calculate_age(self):
+        today = date.today()
+        return today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))
+
+
 
 class Report(models.Model):
     # Description of report

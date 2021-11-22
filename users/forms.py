@@ -18,14 +18,16 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email', 'password']
 
 
-# This is for updating the profile picture
+# This is for updating the profile fields and picture
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image']
+        fields = ['image','height', 'dob','sports',]
+
+
 
 class UserReportForm(forms.ModelForm):
     """
