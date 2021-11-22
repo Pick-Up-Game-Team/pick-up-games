@@ -1,64 +1,59 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
- <main role="main" class="container-fluid">
-      <div class="row">
-          <div class ="col-md-4"></div>
-    <div class ="col-md-4">
-    <div class="content-section" >
-        <div class="media">
-
-            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}"><br>
-             <!-- This code prints out the user's information on the profile page -->
-                <p class="text-secondary"> <br>
-                    <strong><font size = 5>{{ user.username }}</font></strong><br>
-                    Height: {{ user.profile.calculate_height }}<br>
-                    Date of Birth: {{ user.profile.dob }} <br>
-                    Sports: {{ user.profile.sports }}<br>
-                    Age: {{ user.profile.calculate_age }} <br>
-
-                </p>
-            </div>
-        </div>
-    </div>
-          <div class="col-md-4">
+  <main role="main" class="container-fluid">
+    <div class="container">
+      <div class="row justify-content-between mt-4">
+        <div class="d-inline-flex">
           <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
-              <ul class="list-group">
-                <a class="list-group-item list-group-item-light"  href="{% url  'profile' %}">Public Info</a>
-                <a class="list-group-item list-group-item-light" href = "{% url 'profile-management' %}" >Account Management</a>
+            <div class="media">
+
+              <img class="rounded-circle account-img mr-4" src="{{ user.profile.image.url }}"><br>
+              <!-- This code prints out the user's information on the profile page -->
+              <p class="text-secondary"> <br>
+                <strong><font size = 5>{{ user.username }}</font></strong><br>
+                Height: {{ user.profile.calculate_height }}<br>
+                Date of Birth: {{ user.profile.dob }} <br>
+                Sports: {{ user.profile.sports }}<br>
+                Age: {{ user.profile.calculate_age }} <br>
+
+              </p>
+            </div>
+            <div class ="col-md-4" style="max-width: 50%">
+              <ul>
+                {% for friend in user.profile.get_friends %}
+                  <li>{{friend}}</li>
+                {% endfor %}
               </ul>
-            </p>
+              Number of Friends: {{user.profile.get_friends_no}}
+              <form action="{% url 'all-profiles-view' %}">
+                  <input type="submit" value="Manage Friends" />
+              </form>
+            </div>
           </div>
         </div>
-        <form class="col-lg-6 offset-lg-3" method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          <fieldset class="form-group">
-            <legend class="mb-4" >Profile Info</legend>
-            {{ p_form|crispy }}
-          </fieldset>
-          <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Update Profile</button>
-          </div>
-        </form>
+        <div class="content-section">
+          <h3>Our Sidebar</h3>
+          <p class='text-muted'>You can put any information here you'd like.
+            <ul class="list-group">
+              <a class="list-group-item list-group-item-light"  href="{% url  'profile' %}">Public Info</a>
+              <a class="list-group-item list-group-item-light" href = "{% url 'profile-management' %}" >Account Management</a>
+            </ul>
+          </p>
+        </div>
+      </div>
+      <hr/>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="mb-4" >Profile Info</legend>
+          {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+          <button class="btn btn-outline-info" type="submit">Update Profile</button>
+        </div>
+      </form>
 
     </div>
-         <div class ="row">
-        <div class ="col-md-8">
-              </div>
-           <div class ="col-md-4">
-    <ul>
-        {% for friend in profile.get_friends %}
-            <li>{{friend}}</li>
-        {% endfor %}
-    </ul>
-    <br>
-    Number of Friends: {{profile.get_friends_no}}
-    <form action="{% url 'all-profiles-view' %}">
-        <input type="submit" value="Manage Friends" />
-    </form>
-           </div>
-         </div>
- </main>
+  </main>
 {% endblock content %}
