@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.forms.widgets import PasswordInput
 from .models import Profile, Report
 
 
@@ -14,6 +15,10 @@ class UserRegisterForm(UserCreationForm):
 
 # This is for updating the username and password
 class UserUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password'].widget = PasswordInput(render_value=False)
+        
     email = forms.EmailField()
 
     class Meta:

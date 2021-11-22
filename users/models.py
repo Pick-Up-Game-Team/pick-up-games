@@ -41,9 +41,9 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default ='default.png', upload_to='profile_pics')
-    height = models.CharField(default='15', max_length=10)
+    height = models.IntegerField(default=60)
     #Date of Birth
-    dob = models.DateTimeField(default=timezone.now)
+    dob = models.DateField(default=timezone.now)
     #ToDO (Kenneth)  Tempoary PlaceHolder for the sports colum
     sports = models.TextField(default = 'No Sports Played')
 
