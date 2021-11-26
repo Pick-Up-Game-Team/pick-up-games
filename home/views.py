@@ -10,7 +10,8 @@ from .models import City
 from .forms import CityForm
 
 def home(request):
-    url = "https://raw.githubusercontent.com/ttran293/cmsc-462/main/rc.csv?token=AK2UTUCNYPQCC7TV6DRLXWDBTW3NI"
+    
+    url = "https://raw.githubusercontent.com/Pick-Up-Game-Team/pick-up-games/main/home/static/db/rc.csv"
     park = pd.read_csv(url)
 
     park = park[["Latitude", "Longitude", "name", "type", "address"]]
