@@ -41,9 +41,10 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default ='default.png', upload_to='profile_pics')
-    height = models.CharField(default='15', max_length=10)
+    # Height in inches
+    height = models.IntegerField(default=60)
     #Date of Birth
-    dob = models.DateTimeField(default=timezone.now)
+    dob = models.DateField(default=timezone.now)
     #ToDO (Kenneth)  Tempoary PlaceHolder for the sports colum
     sports = models.TextField(default = 'No Sports Played')
 
@@ -76,7 +77,11 @@ class Profile(models.Model):
         today = date.today()
         return today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))
 
-
+    def calculate_height(self):
+        feet = int(self.height/12)
+        inches = self.height % 12
+        
+        return f"{feet}'{inches}\""
 
 class Report(models.Model):
     # Description of report
