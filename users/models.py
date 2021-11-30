@@ -44,7 +44,7 @@ class Profile(models.Model):
     # Height in inches
     height = models.IntegerField(default=60)
     #Date of Birth
-    dob = models.DateField(default=timezone.now)
+    dob = models.DateField(default=timezone.now().date)
     #ToDO (Kenneth)  Tempoary PlaceHolder for the sports colum
     sports = models.TextField(default = 'No Sports Played')
 
