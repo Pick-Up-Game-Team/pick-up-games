@@ -44,7 +44,7 @@ class Profile(models.Model):
     # Height in inches
     height = models.IntegerField(default=60)
     #Date of Birth
-    dob = models.DateField(default=timezone.now)
+    dob = models.DateField(default=timezone.now())
     #ToDO (Kenneth)  Tempoary PlaceHolder for the sports colum
     sports = models.TextField(default = 'No Sports Played')
 
@@ -80,7 +80,7 @@ class Profile(models.Model):
     def calculate_height(self):
         feet = int(self.height/12)
         inches = self.height % 12
-        
+
         return f"{feet}'{inches}\""
 
 class Report(models.Model):
