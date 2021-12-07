@@ -1,6 +1,7 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
 
+
 {% block title %}
  List of All Profiles
 {% endblock title %}
@@ -21,7 +22,7 @@
                         </div>
                         <div class="thirteen wide column">
                             <h3>{{obj.user}}</h3>
-                            <button class="ui primary button mb-2">See profile</button>
+                            <button class="btn btn-primary mb-2">See profile</button>
 
 
                             <!-- Removing Friend -->
@@ -29,7 +30,7 @@
                             <form action="{% url 'remove-friend' %}" method="POST">
                                 {% csrf_token %}
                                 <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                                <button type="submit" class="ui negative basic button mb-5">
+                                <button type="submit" class="btn btn-danger mb-5">
                                     <i class="plus square icon"></i>
                                     Remove from Friends
                                 </button>
@@ -54,13 +55,13 @@
                         <div class="thirteen wide column">
                             <h3>{{obj.user}}</h3>
 
-                            <button class="ui primary button mb-2">See profile</button>
+                            <button class="btn btn-primary mb-2">See profile</button>
                             <!-- Accepting friend invite -->
                             {% if obj.user in rel_sender and request.user not in obj.friends.all %}
                             <form action="{% url 'accept-invite' %}" method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                                    <button type="submit" class="ui positive basic button">
+                                    <button type="submit" class="btn btn-success">
                                         <i class="check icon>">
                                             Accept invite
                                         </i>
@@ -73,7 +74,7 @@
                             <form action="{% url 'reject-invite' %}" method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                                    <button type="submit" class="ui negative basic button">
+                                    <button type="submit" class="btn btn-danger">
                                         <i class="check icon>">
                                             Reject invite
                                         </i>
@@ -98,11 +99,11 @@
                         </div>
                         <div class="thirteen wide column">
                             <h3>{{obj.user}}</h3>
-                            <button class="ui primary button mb-2">See profile</button>
+                            <button class="btn btn-primary mb-2">See profile</button>
                             <br>
                             <!-- There's a pending invite that we sent to this user -->
                             {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
-                                <button class="ui disabled button">
+                                <button class="btn btn-danger">
                                     <i class="user icon"></i>
                                     Cancel Invite
                                 </button>
@@ -125,7 +126,7 @@
                         </div>
                         <div class="thirteen wide column">
                             <h3>{{obj.user}}</h3>
-                            <button class="ui primary button mb-2">See profile</button>
+                            <button class="btn btn-primary mb-2">See profile</button>
                             <br>
 
                             <!-- Adding Friend -->
@@ -134,7 +135,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="profile_pk" value={{obj.pk}}>
                                 <!-- No friend request between the 2 users -->
-                                <button type="submit" class="ui positive basic button mb-5">
+                                <button type="submit" class="btn btn-success mb-5">
                                     <i class="plus square icon">  </i>
                                     Send Friend Request
                                 </button>
@@ -147,7 +148,5 @@
             </div>
         {% endif %}
     {% endfor %}
-
-
 
 {% endblock content %}
