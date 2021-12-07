@@ -21,8 +21,7 @@
                         </div>
                         <div class="thirteen wide column">
                             <h3>{{obj.user}}</h3>
-                            <button class="ui primary button mb-5">See profile</button>
-                            <br>
+                            <button class="ui primary button mb-2">See profile</button>
 
 
                             <!-- Removing Friend -->
@@ -30,14 +29,12 @@
                             <form action="{% url 'remove-friend' %}" method="POST">
                                 {% csrf_token %}
                                 <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                                <button type="submit" class="ui negative basic button">
+                                <button type="submit" class="ui negative basic button mb-5">
                                     <i class="plus square icon"></i>
                                     Remove from Friends
                                 </button>
                             </form>
                             {% endif %}
-
-
                         </div>
                     </div>
                 </div>
@@ -57,7 +54,7 @@
                         <div class="thirteen wide column">
                             <h3>{{obj.user}}</h3>
 
-                            <button class="ui primary button mb-5">See profile</button>
+                            <button class="ui primary button mb-2">See profile</button>
                             <!-- Accepting friend invite -->
                             {% if obj.user in rel_sender and request.user not in obj.friends.all %}
                             <form action="{% url 'accept-invite' %}" method="POST">
@@ -101,7 +98,7 @@
                         </div>
                         <div class="thirteen wide column">
                             <h3>{{obj.user}}</h3>
-                            <button class="ui primary button mb-5">See profile</button>
+                            <button class="ui primary button mb-2">See profile</button>
                             <br>
                             <!-- There's a pending invite that we sent to this user -->
                             {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
