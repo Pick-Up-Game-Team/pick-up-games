@@ -10,81 +10,147 @@
         <h1>No Profiles to interact with</h1>
     {% endif %}
 
+    <h1>My Friends: </h1>
     {% for obj in object_list %}
-        <div class="ui segment">
-            <div class="ui grid">
-                <div class="row">
-                    <div class="three wide column">
-                        <img class="ui small circular image"src={{obj.image.url}}>
-                    </div>
-                    <div class="thirteen wide column">
-                        <h3>{{obj.user}}</h3>
-                        <p>{{obj.sports}}</p>
-                        <button class="ui primary button">See profile</button>
-                        <br>
+        {% if request.user in obj.friends.all %}
+            <div class="ui segment">
+                <div class="ui grid">
+                    <div class="row">
+                        <div class="three wide column">
+                            <img src={{obj.image.url}} width="100" height="100">
+                        </div>
+                        <div class="thirteen wide column">
+                            <h3>{{obj.user}}</h3>
+                            <button class="ui primary button mb-5">See profile</button>
+                            <br>
 
-                        <!-- Adding Friend -->
-                        {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
-                        <form action="{% url 'send-invite' %}" method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                            <!-- No friend request between the 2 users -->
-                            <button type="submit" class="ui positive basic button">
-                                <i class="plus square icon">  </i>
-                                Send Friend Request
-                            </button>
-                        </form>
-                        {% endif %}
 
-                        <!-- There's a pending invite that we sent to this user -->
-                        {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
-                            <button class="ui disabled button">
-                                <i class="user icon"></i>
-                                Cancel Invite
-                            </button>
-                        {% endif %}
-
-                        <!-- Removing Friend -->
-                        {% if request.user in obj.friends.all %}
-                        <form action="{% url 'remove-friend' %}" method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                            <button type="submit" class="ui negative basic button">
-                                <i class="plus square icon"></i>
-                                Remove from Friends
-                            </button>
-                        </form>
-                        {% endif %}
-
-                        <!-- Accepting friend invite -->
-                        {% if obj.user in rel_sender and request.user not in obj.friends.all %}
-                        <form action="{% url 'accept-invite' %}" method="POST">
+                            <!-- Removing Friend -->
+                            {% if request.user in obj.friends.all %}
+                            <form action="{% url 'remove-friend' %}" method="POST">
                                 {% csrf_token %}
                                 <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                                <button type="submit" class="ui positive basic button mb-5">
-                                    <i class="check icon>">
-                                        Accept invite
-                                    </i>
+                                <button type="submit" class="ui negative basic button">
+                                    <i class="plus square icon"></i>
+                                    Remove from Friends
                                 </button>
-                        </form>
-                        {% endif %}
+                            </form>
+                            {% endif %}
 
-                        <!-- Rejecting friend invite -->
-                        {% if obj.user in rel_sender and request.user not in obj.friends.all %}
-                        <form action="{% url 'reject-invite' %}" method="POST">
-                                {% csrf_token %}
-                                <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                                <button type="submit" class="ui negative basic button mb-5">
-                                    <i class="close icon>">
-                                        Reject invite
-                                    </i>
-                                </button>
-                        </form>
-                        {% endif %}
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
     {% endfor %}
+
+    <h1>Received Friend Requests: </h1>
+    {% for obj in object_list %}
+        {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+            <div class="ui segment">
+                <div class="ui grid">
+                    <div class="row">
+                        <div class="three wide column">
+                            <img src={{obj.image.url}} width="100" height="100">
+                        </div>
+                        <div class="thirteen wide column">
+                            <h3>{{obj.user}}</h3>
+
+                            <button class="ui primary button mb-5">See profile</button>
+                            <!-- Accepting friend invite -->
+                            {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+                            <form action="{% url 'accept-invite' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                                    <button type="submit" class="ui positive basic button">
+                                        <i class="check icon>">
+                                            Accept invite
+                                        </i>
+                                    </button>
+                            </form>
+                            {% endif %}
+
+                            <!-- Rejecting friend invite -->
+                            {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+                            <form action="{% url 'reject-invite' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                                    <button type="submit" class="ui negative basic button">
+                                        <i class="check icon>">
+                                            Reject invite
+                                        </i>
+                                    </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    <h1>Pending Friend Requests: </h1>
+    {% for obj in object_list %}
+        {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
+            <div class="ui segment">
+                <div class="ui grid">
+                    <div class="row">
+                        <div class="three wide column">
+                            <img src={{obj.image.url}} width="100" height="100">
+                        </div>
+                        <div class="thirteen wide column">
+                            <h3>{{obj.user}}</h3>
+                            <button class="ui primary button mb-5">See profile</button>
+                            <br>
+                            <!-- There's a pending invite that we sent to this user -->
+                            {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
+                                <button class="ui disabled button">
+                                    <i class="user icon"></i>
+                                    Cancel Invite
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    <h1>Requestable People: </h1>
+    {% for obj in object_list %}
+        {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
+            <div class="ui segment">
+                <div class="ui grid">
+                    <div class="row">
+                        <div class="three wide column">
+                            <img src={{obj.image.url}} width="100" height="100">
+                        </div>
+                        <div class="thirteen wide column">
+                            <h3>{{obj.user}}</h3>
+                            <button class="ui primary button mb-2">See profile</button>
+                            <br>
+
+                            <!-- Adding Friend -->
+                            {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
+                            <form action="{% url 'send-invite' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                                <!-- No friend request between the 2 users -->
+                                <button type="submit" class="ui positive basic button mb-5">
+                                    <i class="plus square icon">  </i>
+                                    Send Friend Request
+                                </button>
+                            </form>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+
 
 {% endblock content %}
