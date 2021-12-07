@@ -197,7 +197,8 @@ def accept_invitation(request):
         if rel.status == 'send':
             rel.status = 'accepted'
             rel.save()
-    return redirect('my-invites-view')
+    return redirect(request.META.get('HTTP_REFERER'))
+    #return redirect('my-invites-view')
 
 
 def reject_invitation(request):
@@ -207,7 +208,8 @@ def reject_invitation(request):
         receiver = Profile.objects.get(user=request.user)
         rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
         rel.delete()
-    return redirect('my-invites-view')
+    return redirect(request.META.get('HTTP_REFERER'))
+    #return redirect('my-invites-view')
 
 
 def invite_profiles_list_view(request):

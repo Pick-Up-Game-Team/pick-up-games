@@ -55,6 +55,32 @@
                             </button>
                         </form>
                         {% endif %}
+
+                        <!-- Accepting friend invite -->
+                        {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+                        <form action="{% url 'accept-invite' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                                <button type="submit" class="ui positive basic button mb-5">
+                                    <i class="check icon>">
+                                        Accept invite
+                                    </i>
+                                </button>
+                        </form>
+                        {% endif %}
+
+                        <!-- Rejecting friend invite -->
+                        {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+                        <form action="{% url 'reject-invite' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                                <button type="submit" class="ui negative basic button mb-5">
+                                    <i class="close icon>">
+                                        Reject invite
+                                    </i>
+                                </button>
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
