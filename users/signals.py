@@ -1,4 +1,5 @@
 from django.db.models.signals import post_save, pre_delete
+from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import Profile, Relationship
@@ -47,6 +48,16 @@ def pre_delete_remove_from_friends(sender, instance, **kwargs):
     receiver.friends.remove(sender.user)
     sender.save()
     receiver.save()
+
+@receiver(user_logged_in, sender= User)
+def user_online(sender,user,request, **kwargs):
+    user.profile.is_online = True
+    user.profile.save()
+
+@receiver(user_logged_out, sender= User)
+def user_offline(sender,user,request, **kwargs):
+    user.profile.is_online = False
+    user.profile.save()
 
 
 
