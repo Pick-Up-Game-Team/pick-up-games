@@ -6,31 +6,49 @@ import pandas as pd
 from pprint import pprint
 import requests
 import pyowm
-from .models import City
+from statistics import mean
+from .models import City, Venue
 from .forms import CityForm
 
 def home(request):
     url = "https://raw.githubusercontent.com/Pick-Up-Game-Team/pick-up-games/main/home/static/db/rc.csv"
-    park = pd.read_csv(url)
-
-    park = park[["Latitude", "Longitude", "name", "type", "address"]]
-
-
-    m = folium.Map(location=[park.Latitude.mean(), park.Longitude.mean()],control_scale=True, zoom_start=11)
-    test = folium.Html('<b>Hello world</b>', script=True)
-
-    popup = folium.Popup(test, max_width=2650)
-
-    for index, location_info in park.iterrows():
-        text = f"""
-        <p><b>Join:</b> {location_info['name']} {location_info['type']}</p>
-        <p style="text-align:center;"><b>Address: </b> {location_info['address']}</p>
-            """
-        folium.Marker([location_info["Latitude"], location_info["Longitude"]], popup=folium.Popup(text, max_width = 400)).add_to(m)
-   
-    #tooltip = location_info['type']
     
-    #39.25484512917189, -76.71139655345341
+    venues = Venue.objects.all()
+    
+    # Load default venue data from csv file
+    default_venues = pd.read_csv(url)
+    default_venues = default_venues[["Latitude", "Longitude", "name", "type", "address"]]
+    
+    # Create default venues if no venues exist
+    if not venues.exists():
+        for i, venue in default_venues.iterrows():
+            new_venue = Venue(latitude=venue['Latitude'],
+                              longitude=venue['Longitude'],
+                              name=venue['name'],
+                              type_info=venue['type'],
+                              address=venue['address'])
+            new_venue.save()
+    
+    venues = list(Venue.objects.all())
+    
+    # Get average latitude of all venues for map start location
+    avg_lat = 0
+    avg_lat = mean([avg_lat + venue.latitude for venue in venues])
+    
+    # Get average longitude of all venues for map start location
+    avg_long = 0
+    avg_long = mean([avg_long + venue.longitude for venue in venues])
+
+    # Initialize map
+    m = folium.Map(location=[avg_lat, avg_long],control_scale=True, zoom_start=11)
+
+    # Create markers and popups for each venue
+    for venue in venues:
+        text = f"""
+        <p><a href="#"><h4>{venue.name}</h4></a> {venue.type_info}</p>
+        <p><b>Address: </b> {venue.address}</p>
+            """
+        folium.Marker([venue.latitude, venue.longitude], popup=folium.Popup(text, max_width = 400)).add_to(m)
     
     APIKEY = 'b6e19d92daea6f8d6c533d397f7ef2c5'
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=' + APIKEY

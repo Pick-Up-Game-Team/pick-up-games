@@ -9,3 +9,19 @@ def __str__(self):
 
 class Meta:
     verbose_name_plural = 'cities'
+
+class Venue(models.Model):
+    """Places for people to play pick up games
+    
+    Attrs:
+        latitude - latitude value of coordinates
+        longitude - longitude value of coordinates
+        name - name of venue
+        type_info - info about type of venue
+        address - address string
+    """
+    latitude = models.DecimalField(max_digits=10, decimal_places=8, default=39.00000000)
+    longitude = models.DecimalField(max_digits=11, decimal_places=8, default=-76.70000000)
+    name = models.CharField(max_length=30, default='default venue')
+    type_info = models.CharField(max_length=20, default='default venue type')
+    address = models.CharField(max_length=45, default='default address')
