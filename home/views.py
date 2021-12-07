@@ -7,48 +7,48 @@ from pprint import pprint
 import requests
 import pyowm
 from statistics import mean
-from .models import City, Venue
+from .models import City, Court
 from .forms import CityForm
 
 def home(request):
     url = "https://raw.githubusercontent.com/Pick-Up-Game-Team/pick-up-games/main/home/static/db/rc.csv"
     
-    venues = Venue.objects.all()
+    courts = Court.objects.all()
     
-    # Load default venue data from csv file
-    default_venues = pd.read_csv(url)
-    default_venues = default_venues[["Latitude", "Longitude", "name", "type", "address"]]
+    # Load default court data from csv file
+    default_courts = pd.read_csv(url)
+    default_courts = default_courts[["Latitude", "Longitude", "name", "type", "address"]]
     
-    # Create default venues if no venues exist
-    if not venues.exists():
-        for i, venue in default_venues.iterrows():
-            new_venue = Venue(latitude=venue['Latitude'],
-                              longitude=venue['Longitude'],
-                              name=venue['name'],
-                              type_info=venue['type'],
-                              address=venue['address'])
-            new_venue.save()
+    # Create default courts if no courts exist
+    if not courts.exists():
+        for i, court in default_courts.iterrows():
+            new_court = Court(latitude=court['Latitude'],
+                              longitude=court['Longitude'],
+                              name=court['name'],
+                              type_info=court['type'],
+                              address=court['address'])
+            new_court.save()
     
-    venues = list(Venue.objects.all())
+    courts = list(Court.objects.all())
     
-    # Get average latitude of all venues for map start location
+    # Get average latitude of all courts for map start location
     avg_lat = 0
-    avg_lat = mean([avg_lat + venue.latitude for venue in venues])
+    avg_lat = mean([avg_lat + court.latitude for court in courts])
     
-    # Get average longitude of all venues for map start location
+    # Get average longitude of all courts for map start location
     avg_long = 0
-    avg_long = mean([avg_long + venue.longitude for venue in venues])
+    avg_long = mean([avg_long + court.longitude for court in courts])
 
     # Initialize map
     m = folium.Map(location=[avg_lat, avg_long],control_scale=True, zoom_start=11)
 
-    # Create markers and popups for each venue
-    for venue in venues:
+    # Create markers and popups for each court
+    for court in courts:
         text = f"""
-        <p><a href="#"><h4>{venue.name}</h4></a> {venue.type_info}</p>
-        <p><b>Address: </b> {venue.address}</p>
+        <p><a href="#"><h4>{court.name}</h4></a> {court.type_info}</p>
+        <p><b>Address: </b> {court.address}</p>
             """
-        folium.Marker([venue.latitude, venue.longitude], popup=folium.Popup(text, max_width = 400)).add_to(m)
+        folium.Marker([court.latitude, court.longitude], popup=folium.Popup(text, max_width = 400)).add_to(m)
     
     APIKEY = 'b6e19d92daea6f8d6c533d397f7ef2c5'
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=' + APIKEY
