@@ -94,18 +94,20 @@ class TestLoginpage(StaticLiveServerTestCase):
 
 # testing search result functionality
 @override_settings(DEBUG=True)
-class TestSearch(TestCase):
+class TestSearch(StaticLiveServerTestCase):
     def setUp(self):
         """
         Set up test environment (runs once per test function)
         """
+
         # Inherit setUp()
         super().setUp()
 
         # Set up Chrome web driver and test client
         self.client = Client()
         self.driver = WebDriver(executable_path=binary_path)
-        self.driver.implicitly_wait(5)
+        self.driver.implicitly_wait(10)
+        self.driver.set_window_size(1200, 1000)
 
         # Define variables
         self.username = 'SearchMcSearchison'
@@ -116,8 +118,6 @@ class TestSearch(TestCase):
         self.user = User.objects.create_user(username=self.username,
                                         email=f'{self.username}@email.com',
                                         password=self.password)
-
-        self.driver.set_window_size(1936, 1056)
 
     def tearDown(self):
         """
@@ -137,7 +137,8 @@ class TestSearch(TestCase):
         self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
 
         # Search for user
-        self.driver.find_element(By.CSS_SELECTOR, "results").click()
+        #self.driver.find_element(By.CSS_SELECTOR, "results").click()
+        self.driver.find_element(By.TAG_NAME, "button").click()
         self.driver.find_element(By.CSS_SELECTOR, "results").send_keys("McSearch")
         self.driver.find_element(By.CSS_SELECTOR, "results").send_keys(Keys.ENTER)
 
