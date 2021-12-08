@@ -19,6 +19,7 @@ class Court(models.Model):
         name - name of venue
         type_info - info about type of venue
         address - address string
+        main_sport - choice of which sport is mainly played here
     """
     SPORT_CHOICES = [
         ('Basketball', 'Basketball'),
@@ -34,3 +35,6 @@ class Court(models.Model):
     type_info = models.CharField(max_length=20, default='default venue type')
     address = models.CharField(max_length=45, default='default address', unique=True)
     main_sport = models.CharField(max_length=10, choices=SPORT_CHOICES, default='Basketball')
+    
+    def __str__(self):
+        return self.name
