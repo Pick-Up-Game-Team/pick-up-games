@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models.fields.related import ForeignKey
 from django.utils import timezone
 from datetime import date
 from PIL import Image
 from django.db.models import Q
+from home.models import Court
 
 
 # Create your models here.
@@ -51,7 +53,7 @@ class Profile(models.Model):
     # friends stuff
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
     objects = ProfileManager()
-
+    court = ForeignKey(Court, on_delete=models.SET_NULL, blank=True, null=True)
 
     def get_friends(self):
         return self.friends.all()

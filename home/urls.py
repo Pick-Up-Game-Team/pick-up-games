@@ -8,5 +8,7 @@ urlpatterns = [
     path('about/', views.about, name='about-page'),
     path('sports/', views.sports, name='sports-page'),
     path('courts/', views.CourtListView.as_view(), name='court-list'),
-    path('courts/<int:pk>/', views.CourtDetailView.as_view(), name='court-detail')
+    path('courts/<int:pk>/', views.CourtDetailView.as_view(), name='court-detail'),
+    path('courts/<int:pk>/join/', views.join_court, name='join-court'),
+    path('courts/<int:pk>/leave/', views.leave_court, name='leave-court')
 ]

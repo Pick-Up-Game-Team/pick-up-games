@@ -1,14 +1,16 @@
 from django.urls import reverse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.middleware.csrf import get_token
 import folium
 import pandas as pd
 import requests
 from statistics import mean
 from .models import City, Court
 from .forms import CityForm
+from users.models import Profile
 
 def home(request):
     url = "https://raw.githubusercontent.com/Pick-Up-Game-Team/pick-up-games/main/home/static/db/rc.csv"
@@ -53,6 +55,40 @@ def home(request):
             'Other': 'darkpurple'
         }
         
+        if request.user.is_authenticated:
+            user_profile = Profile.objects.get(user=request.user)
+        else:
+            user_profile = None
+        
+        # If user is not logged in, do not have a join/leave button
+        if not user_profile:
+            button = """
+                    <div class="d-flex justify-content-center">
+                        <input type="submit" class="btn btn-danger" value="Login to join" name="map-login">
+                    </div>
+                    """
+            url = reverse('login')
+            method = "GET"
+        # Button to leave the court if user is there
+        elif user_profile.court == court:
+            button = """
+                    <div class="d-flex justify-content-center">
+                        <input type="submit" class="btn btn-danger" value="Leave" name="leave-court">
+                    </div>
+                    """
+            url = reverse('leave-court', args=(court.pk,))
+            method = "POST"
+        # Button to join the court if user is not there
+        else:
+            button = """
+                    <div class="d-flex justify-content-center">
+                        <input type="submit" class="btn btn-primary" value="Join" name="join-court">
+                    </div>
+                    """
+            url = reverse('join-court', args=(court.pk,))
+            method = "POST"
+        
+        # HTML to embed into marker popup
         text = f"""
         <p>
             <a href="{reverse('court-detail', args=(court.pk,))}" target="_blank">
@@ -64,12 +100,17 @@ def home(request):
         <p>
             <b>Main Sport: </b>{court.main_sport}
             <br>
-            <b>Address: </b>
-            {court.address}
+            <b>Address: </b>{court.address}
+            <br>
+            <b>{court.profile_set.count()} players </b>are currently here
         </p>
+        <form action="{url}" method="{method}" target="_parent">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{get_token(request)}"/>
+            {button}
+        </form>
         """
         # Set color of marker based on sport
-        icon = folium.Icon(color=SPORT_COLOR[court.main_sport])
+        icon = folium.Icon(icon='fire', color=SPORT_COLOR[court.main_sport])
         
         folium.Marker([court.latitude, court.longitude], popup=folium.Popup(text, max_width = 400), icon=icon).add_to(m)
     
@@ -136,6 +177,24 @@ def home(request):
             'message' : message,
             'message_class' : message_class
             })
+
+def join_court(request, **kwargs):
+    if request.method == "POST":
+        user_profile = Profile.objects.get(user=request.user)
+        court = Court.objects.get(pk=kwargs['pk'])
+        
+        court.profile_set.add(user_profile)
+        
+    return redirect('home-page')
+
+def leave_court(request, **kwargs):
+    if request.method == "POST":
+        user_profile = Profile.objects.get(user=request.user)
+        court = Court.objects.get(pk=kwargs['pk'])
+        
+        court.profile_set.remove(user_profile)
+        
+    return redirect('home-page')
 
 def search(request):
     if request.method == "POST":
