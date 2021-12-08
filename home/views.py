@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.views.generic.detail import DetailView
@@ -44,8 +44,17 @@ def home(request):
     # Create markers and popups for each court
     for court in courts:
         text = f"""
-        <p><a href="#"><h4>{court.name}</h4></a> {court.type_info}</p>
-        <p><b>Address: </b> {court.address}</p>
+        <p>
+        <a href="{reverse('court-detail', args=(court.pk,))}">
+        <h4>{court.name}</h4>
+        </a>
+        {court.type_info}
+        <br>
+        </p>
+        <p>
+        <b>Main Sport: </b>{court.main_sport}
+        <br>
+        <b>Address: </b>{court.address}</p>
             """
         folium.Marker([court.latitude, court.longitude], popup=folium.Popup(text, max_width = 400)).add_to(m)
     
