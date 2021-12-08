@@ -102,14 +102,13 @@ class TestSearchTest(TestCase):
         self.driver.quit()
 
     def test_search(self):
-        # Register a dummy user
         self.driver.get("http://127.0.0.1:8000/")
         self.driver.set_window_size(1050, 852)
 
         # Go to Registration Page
         self.driver.find_element(By.LINK_TEXT, "Register").click()
 
-        # Register User
+        # Register user
         self.driver.find_element(By.ID, "id_username").send_keys("SearchMcSearchison")
         self.driver.find_element(By.ID, "id_password1").send_keys("Popeyes99")
         self.driver.find_element(By.ID, "id_password2").send_keys("Popeyes99")
@@ -132,7 +131,7 @@ class TestSearchTest(TestCase):
         self.driver.find_element(By.CSS_SELECTOR, "results").send_keys("McSearch")
         self.driver.find_element(By.CSS_SELECTOR, "results").send_keys(Keys.ENTER)
 
-        # Check if user is found
+        # Check if user is found (NOT YET IMPLEMENTED)
 
 
 class TestRegistrationTest(TestCase):
