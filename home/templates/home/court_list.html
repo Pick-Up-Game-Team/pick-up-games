@@ -1,0 +1,19 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Court List
+{% endblock title %}
+
+{% block content %}
+
+    <div class="container d-flex flex-column align-items-center">
+        <h1>Courts</h1>
+        {% if object_list|length == 0 %}
+            <h4>No courts available</h4>
+        {% endif %}
+        {% for obj in object_list %}
+            <a href="{% url 'court-detail' obj.pk %}">{{obj.name}}</a>
+        {% endfor %}
+    </div>
+
+{% endblock content %}

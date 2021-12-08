@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models.fields.related import ForeignKey
 from django.utils import timezone
 from datetime import date
 from PIL import Image
 from django.db.models import Q
+from home.models import Court
 
 
 # Create your models here.
@@ -44,14 +46,14 @@ class Profile(models.Model):
     # Height in inches
     height = models.IntegerField(default=60)
     #Date of Birth
-    dob = models.DateField(default=timezone.now)
+    dob = models.DateField(default=timezone.now())
     #ToDO (Kenneth)  Tempoary PlaceHolder for the sports colum
     sports = models.TextField(default = 'No Sports Played')
 
     # friends stuff
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
     objects = ProfileManager()
-
+    court = ForeignKey(Court, on_delete=models.SET_NULL, blank=True, null=True)
 
     def get_friends(self):
         return self.friends.all()
@@ -80,7 +82,7 @@ class Profile(models.Model):
     def calculate_height(self):
         feet = int(self.height/12)
         inches = self.height % 12
-        
+
         return f"{feet}'{inches}\""
 
 class Report(models.Model):

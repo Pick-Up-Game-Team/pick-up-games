@@ -10,7 +10,7 @@
     />
 
     {% if title %}
-    <title>Pick Up Games - {{ title }}</title>
+    <title>{{ title }} | Pick Up Games</title>
     {% else %}
     <title>Pick Up Games</title>
     {% endif %}
@@ -36,6 +36,7 @@
     <![endif]-->
   </head>
   <body>
+
     <nav class="navbar navbar-expand-lg site-header sticky-top py-1">
       <div class="container-lg flex-md-row">
         <a class="py-2" href="{% url 'home-page' %}">
