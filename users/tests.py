@@ -130,15 +130,16 @@ class TestSearch(StaticLiveServerTestCase):
     def test_search(self):
         # Go to login page
         self.driver.get(f"{self.live_server_url}/login/")
+        self.driver.implicitly_wait(2)
 
         # Enter and submit login credentials to log in
         self.driver.find_element(By.ID, "id_username").send_keys(self.username)
         self.driver.find_element(By.ID, "id_password").send_keys(self.password)
         self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
+        self.driver.implicitly_wait(2)
 
         # Search for user
-        #self.driver.find_element(By.CSS_SELECTOR, "results").click()
-        self.driver.find_element(By.TAG_NAME, "button").click()
+        self.driver.find_element(By.CSS_SELECTOR, "results").click()
         self.driver.find_element(By.CSS_SELECTOR, "results").send_keys("McSearch")
         self.driver.find_element(By.CSS_SELECTOR, "results").send_keys(Keys.ENTER)
 
