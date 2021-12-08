@@ -21,7 +21,7 @@ class TestLoginpage(StaticLiveServerTestCase):
         """
         # Inherit setUp()
         super().setUp()
-        
+
         # Set up Chrome web driver and test client
         self.client = Client()
         self.driver = WebDriver(executable_path=binary_path)
@@ -29,7 +29,7 @@ class TestLoginpage(StaticLiveServerTestCase):
         self.driver.implicitly_wait(5)
         self.driver.set_window_size(1936, 1056)
         self.driver.get(f'{self.live_server_url}')
-        
+
         # Define variables
         self.username = 'testuser'
         self.password = 'Testing123!'
@@ -51,7 +51,7 @@ class TestLoginpage(StaticLiveServerTestCase):
         """
         Test login page functionality
         """
-        
+
         # Go to login page
         self.driver.find_element_by_link_text('Login').click()
         self.driver.implicitly_wait(1)
@@ -62,7 +62,7 @@ class TestLoginpage(StaticLiveServerTestCase):
         except Profile.DoesNotExist:
             user_obj = None
         self.assertIsNotNone(user_obj)
-        
+
         # Test that the user is not logged in (there should not be a log out button)
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element(By.LINK_TEXT, "Log Out")
@@ -71,7 +71,7 @@ class TestLoginpage(StaticLiveServerTestCase):
         self.driver.find_element(By.ID, "id_username").send_keys(self.username)
         self.driver.find_element(By.ID, "id_password").send_keys(self.password)
         self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
-        
+
         # Test that the user is logged in (there should be a log out and register link)
         self.wait.until(
             expected_conditions.element_to_be_clickable(
@@ -91,6 +91,49 @@ class TestLoginpage(StaticLiveServerTestCase):
         # Test that the user is not logged in (there should not be a log out button)
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element_by_link_text('Log Out')
+
+    # testing search result functionality
+class TestSearchTest(TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome(executable_path=binary_path)
+        self.vars = {}
+
+    def teardown_method(self, method):
+        self.driver.quit()
+
+    def test_search(self):
+        # Register a dummy user
+        self.driver.get("http://127.0.0.1:8000/")
+        self.driver.set_window_size(1050, 852)
+
+        # Go to Registration Page
+        self.driver.find_element(By.LINK_TEXT, "Register").click()
+
+        # Register User
+        self.driver.find_element(By.ID, "id_username").send_keys("SearchMcSearchison")
+        self.driver.find_element(By.ID, "id_password1").send_keys("Popeyes99")
+        self.driver.find_element(By.ID, "id_password2").send_keys("Popeyes99")
+        self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
+        self.driver.find_element(By.ID, "id_password1").click()
+        self.driver.find_element(By.ID, "id_password1").send_keys("Popeyes99")
+        self.driver.find_element(By.ID, "id_password2").send_keys("Popeyes99")
+        self.driver.find_element(By.ID, "id_password2").send_keys(Keys.ENTER)
+
+        # Login as user
+        self.driver.find_element(By.LINK_TEXT, "Login").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".col-lg-6").click()
+        self.driver.find_element(By.ID, "id_username").send_keys("SearchMcSearchison")
+        self.driver.find_element(By.CSS_SELECTOR, ".content-section").click()
+        self.driver.find_element(By.ID, "id_password").send_keys("Popeyes99")
+        self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
+
+        # Search for user
+        self.driver.find_element(By.CSS_SELECTOR, "results").click()
+        self.driver.find_element(By.CSS_SELECTOR, "results").send_keys("McSearch")
+        self.driver.find_element(By.CSS_SELECTOR, "results").send_keys(Keys.ENTER)
+
+        # Check if user is found
+
 
 class TestRegistrationTest(TestCase):
     def setUp(self):
@@ -147,12 +190,12 @@ class TestReportSystem(StaticLiveServerTestCase):
         """
         # Inherit setUp()
         super().setUp()
-        
+
         # Set up Chrome web driver and test client
         self.client = Client()
         self.driver = WebDriver(executable_path=binary_path)
         self.driver.implicitly_wait(5)
-        
+
         # Define variables
         self.username = 'testuser'
         self.report_username = 'badguy'
@@ -163,14 +206,14 @@ class TestReportSystem(StaticLiveServerTestCase):
         self.user = User.objects.create_user(username=self.username,
                                         email=f'{self.username}@email.com',
                                         password=self.password)
-        
+
         # Create account of user to be reported
         self.report_user = User.objects.create_user(self.report_username,
                                         f'{self.report_username}@email.com',
                                         self.password)
-        
+
         self.driver.set_window_size(1936, 1056)
-        
+
     def tearDown(self):
         """
         Destroy test environment (run once per test function)
@@ -185,24 +228,24 @@ class TestReportSystem(StaticLiveServerTestCase):
         """
         # Go to login page
         self.driver.get(f"{self.live_server_url}/login/")
-        
+
         # Enter and submit login credentials to log in
         self.driver.find_element(By.ID, "id_username").send_keys(self.username)
         self.driver.find_element(By.ID, "id_password").send_keys(self.password)
         self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
-        
+
         # Go to report badguy user
         # NOTE: this will redirect to login if user is not logged in!
         self.driver.get(f"{self.live_server_url}/report/?user={self.report_user}")
-        
+
         # Check for correct form title
         form_title = self.driver.find_element(By.TAG_NAME, "legend").text
         self.assertEqual(form_title, f"Report {self.report_username}")
-        
+
         # Submit report with given message
         self.driver.find_element(By.ID, "id_message").send_keys(self.report_message)
         self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
-        
+
         # Check the correctness of the report object
         report_exists = Report.objects.filter(author=self.user,
                                               reported_user=self.report_user,
@@ -310,5 +353,3 @@ class TestFriendRequests(StaticLiveServerTestCase):
         self.driver.find_element(By.CSS_SELECTOR, ".negative").click()
         # 24 | click | linkText=Log Out |  |
         self.driver.find_element(By.LINK_TEXT, "Log Out").click()
-
-
