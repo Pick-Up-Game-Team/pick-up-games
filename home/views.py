@@ -2,6 +2,7 @@ from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 import folium
 import pandas as pd
 import requests
@@ -43,20 +44,34 @@ def home(request):
 
     # Create markers and popups for each court
     for court in courts:
+        # Define marker colors by sport
+        SPORT_COLOR = {
+            'Basketball': 'orange',
+            'Tennis': 'green',
+            'Soccer': 'blue',
+            'Baseball': 'red',
+            'Other': 'darkpurple'
+        }
+        
         text = f"""
         <p>
-        <a href="{reverse('court-detail', args=(court.pk,))}">
-        <h4>{court.name}</h4>
-        </a>
-        {court.type_info}
-        <br>
+            <a href="{reverse('court-detail', args=(court.pk,))}" target="_blank">
+                <h4>{court.name}</h4>
+            </a>
+            {court.type_info}
+            <br>
         </p>
         <p>
-        <b>Main Sport: </b>{court.main_sport}
-        <br>
-        <b>Address: </b>{court.address}</p>
-            """
-        folium.Marker([court.latitude, court.longitude], popup=folium.Popup(text, max_width = 400)).add_to(m)
+            <b>Main Sport: </b>{court.main_sport}
+            <br>
+            <b>Address: </b>
+            {court.address}
+        </p>
+        """
+        # Set color of marker based on sport
+        icon = folium.Icon(color=SPORT_COLOR[court.main_sport])
+        
+        folium.Marker([court.latitude, court.longitude], popup=folium.Popup(text, max_width = 400), icon=icon).add_to(m)
     
     APIKEY = 'b6e19d92daea6f8d6c533d397f7ef2c5'
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=' + APIKEY
@@ -140,6 +155,7 @@ def sports(request):
     return render(request, 'home/sports.html')
 
 class CourtDetailView(DetailView):
+    """Detailed view of a court"""
     model = Court
     
     def get_context_data(self, **kwargs):
@@ -147,6 +163,18 @@ class CourtDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         
         # Default image URLs for each sport
-        context['basketball_img'] = 'https://images.unsplash.com/photo-1616003618448-2914895212ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1167&q=80'
+        context['Basketball_img'] = 'https://images.unsplash.com/photo-1616003618448-2914895212ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1167&q=80'
+        context['Soccer_img'] = 'https://images.unsplash.com/photo-1551958219-acbc608c6377?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+        context['Tennis_img'] = 'https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+        context['Baseball_img'] = 'https://images.unsplash.com/photo-1530143651579-c7f12d67ae3e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+        context['Other_img'] = 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+        
+        # Determine the picture to use based on the main sport of the court
+        main_sport = self.object.main_sport
+        context['sport_img'] = context[main_sport + '_img']
         
         return context
+
+class CourtListView(ListView):
+    model = Court
+    
