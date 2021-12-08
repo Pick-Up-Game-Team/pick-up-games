@@ -10,7 +10,7 @@
     />
 
     {% if title %}
-    <title>Pick Up Games - {{ title }}</title>
+    <title>{{ title }} | Pick Up Games</title>
     {% else %}
     <title>Pick Up Games</title>
     {% endif %}
@@ -52,7 +52,9 @@
         <a class="py-2 d-none d-md-inline-block" href="{% url 'sports-page' %}"
           >Sports</a
         >
-        <a class="py-2 d-none d-md-inline-block" href="#">Courts</a>
+        <a class="py-2 d-none d-md-inline-block" href="{% url 'court-list' %}">
+          Courts
+        </a>
 
         <a class="py-2" href="{% url 'home-page' %}">
           <svg

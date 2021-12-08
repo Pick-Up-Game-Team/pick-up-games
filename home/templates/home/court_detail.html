@@ -1,0 +1,21 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<main role="main" class="container-fluid">
+  <div class="container">
+    <div class="content-section my-3">
+      <div class="media w-100" style="height: 20rem; background-image: url({{ sport_img }}); background-position: center; background-size: cover;">
+      </div>
+      <!-- Print court info -->
+      <p class="text-secondary"> <br>
+        <strong><font size = 5>{{ object.name }}</font></strong><br>
+        {{ object.type_info }} <br>
+        Main Sport: {{ object.main_sport }}<br>
+        Address: {{ object.address }} <br>
+      </p>
+
+    </div>
+  </div>
+
+</main>
+{% endblock content %}
