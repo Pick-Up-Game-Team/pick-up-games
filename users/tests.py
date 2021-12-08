@@ -92,38 +92,48 @@ class TestLoginpage(StaticLiveServerTestCase):
         with self.assertRaises(NoSuchElementException):
             self.driver.find_element_by_link_text('Log Out')
 
-    # testing search result functionality
-class TestSearchTest(TestCase):
+# testing search result functionality
+@override_settings(DEBUG=True)
+class TestSearch(TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome(executable_path=binary_path)
-        self.vars = {}
+        """
+        Set up test environment (runs once per test function)
+        """
+        # Inherit setUp()
+        super().setUp()
 
-    def teardown_method(self, method):
+        # Set up Chrome web driver and test client
+        self.client = Client()
+        self.driver = WebDriver(executable_path=binary_path)
+        self.driver.implicitly_wait(5)
+
+        # Define variables
+        self.username = 'SearchMcSearchison'
+        self.password = 'Popeyes99!'
+        self.found = False
+
+        # Create account
+        self.user = User.objects.create_user(username=self.username,
+                                        email=f'{self.username}@email.com',
+                                        password=self.password)
+
+        self.driver.set_window_size(1936, 1056)
+
+    def tearDown(self):
+        """
+        Destroy test environment (run once per test function)
+        """
+        # Inherit tearDown()
+        super().tearDown()
         self.driver.quit()
 
     def test_search(self):
-        self.driver.get("http://127.0.0.1:8000/")
-        self.driver.set_window_size(1050, 852)
+        # Go to login page
+        self.driver.get(f"{self.live_server_url}/login/")
 
-        # Go to Registration Page
-        self.driver.find_element(By.LINK_TEXT, "Register").click()
-
-        # Register user
-        self.driver.find_element(By.ID, "id_username").send_keys("SearchMcSearchison")
-        self.driver.find_element(By.ID, "id_password1").send_keys("Popeyes99")
-        self.driver.find_element(By.ID, "id_password2").send_keys("Popeyes99")
-        self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
-        self.driver.find_element(By.ID, "id_password1").click()
-        self.driver.find_element(By.ID, "id_password1").send_keys("Popeyes99")
-        self.driver.find_element(By.ID, "id_password2").send_keys("Popeyes99")
-        self.driver.find_element(By.ID, "id_password2").send_keys(Keys.ENTER)
-
-        # Login as user
-        self.driver.find_element(By.LINK_TEXT, "Login").click()
-        self.driver.find_element(By.CSS_SELECTOR, ".col-lg-6").click()
-        self.driver.find_element(By.ID, "id_username").send_keys("SearchMcSearchison")
-        self.driver.find_element(By.CSS_SELECTOR, ".content-section").click()
-        self.driver.find_element(By.ID, "id_password").send_keys("Popeyes99")
+        # Enter and submit login credentials to log in
+        self.driver.find_element(By.ID, "id_username").send_keys(self.username)
+        self.driver.find_element(By.ID, "id_password").send_keys(self.password)
         self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
 
         # Search for user
@@ -132,53 +142,6 @@ class TestSearchTest(TestCase):
         self.driver.find_element(By.CSS_SELECTOR, "results").send_keys(Keys.ENTER)
 
         # Check if user is found (NOT YET IMPLEMENTED)
-
-
-class TestRegistrationTest(TestCase):
-    def setUp(self):
-        self.driver = webdriver.Chrome(executable_path=binary_path)
-        self.vars = {}
-
-    def teardown_method(self, method):
-        self.driver.quit()
-
-    def test_registrationTest(self):
-        # Test name: Registration-Test
-        # Step # | name | target | value
-        # 1 | open | / |
-        self.driver.get("http://127.0.0.1:8000/")
-        # 2 | setWindowSize | 1050x852 |
-        self.driver.set_window_size(1050, 852)
-        # 3 | click | linkText=Register |
-        self.driver.find_element(By.LINK_TEXT, "Register").click()
-        # 4 | type | id=id_username | RegisterUser1
-        self.driver.find_element(By.ID, "id_username").send_keys("RegisterUser1")
-        # 5 | type | id=id_password1 | Checken1234
-        self.driver.find_element(By.ID, "id_password1").send_keys("Checken1234")
-        # 6 | type | id=id_password2 | Chicken1234
-        self.driver.find_element(By.ID, "id_password2").send_keys("Chicken1234")
-        # 7 | click | css=.btn |
-        self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
-        # 8 | click | id=id_password1 |
-        self.driver.find_element(By.ID, "id_password1").click()
-        # 9 | type | id=id_password1 | Chicken1234
-        self.driver.find_element(By.ID, "id_password1").send_keys("Chicken1234")
-        # 10 | type | id=id_password2 | Chicken1234
-        self.driver.find_element(By.ID, "id_password2").send_keys("Chicken1234")
-        # 11 | sendKeys | id=id_password2 | ${KEY_ENTER}
-        self.driver.find_element(By.ID, "id_password2").send_keys(Keys.ENTER)
-        # 12 | click | linkText=Login |
-        self.driver.find_element(By.LINK_TEXT, "Login").click()
-        # 13 | click | css=.col-lg-6 |
-        self.driver.find_element(By.CSS_SELECTOR, ".col-lg-6").click()
-        # 14 | type | id=id_username | RegisterUser1
-        self.driver.find_element(By.ID, "id_username").send_keys("RegisterUser1")
-        # 15 | click | css=.content-section |
-        self.driver.find_element(By.CSS_SELECTOR, ".content-section").click()
-        # 16 | type | id=id_password | Chicken1234
-        self.driver.find_element(By.ID, "id_password").send_keys("Chicken1234")
-        # 17 | click | css=.btn |
-        self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
 
 # Force DEBUG=True to prevent 500 server error (not sure why)
 @override_settings(DEBUG=True)
@@ -250,6 +213,52 @@ class TestReportSystem(StaticLiveServerTestCase):
                                               reported_user=self.report_user,
                                               message=self.report_message).exists()
         self.assertTrue(report_exists)
+
+class TestRegistrationTest(TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome(executable_path=binary_path)
+        self.vars = {}
+
+    def teardown_method(self, method):
+        self.driver.quit()
+
+    def test_registrationTest(self):
+        # Test name: Registration-Test
+        # Step # | name | target | value
+        # 1 | open | / |
+        self.driver.get("http://127.0.0.1:8000/")
+        # 2 | setWindowSize | 1050x852 |
+        self.driver.set_window_size(1050, 852)
+        # 3 | click | linkText=Register |
+        self.driver.find_element(By.LINK_TEXT, "Register").click()
+        # 4 | type | id=id_username | RegisterUser1
+        self.driver.find_element(By.ID, "id_username").send_keys("RegisterUser1")
+        # 5 | type | id=id_password1 | Checken1234
+        self.driver.find_element(By.ID, "id_password1").send_keys("Checken1234")
+        # 6 | type | id=id_password2 | Chicken1234
+        self.driver.find_element(By.ID, "id_password2").send_keys("Chicken1234")
+        # 7 | click | css=.btn |
+        self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
+        # 8 | click | id=id_password1 |
+        self.driver.find_element(By.ID, "id_password1").click()
+        # 9 | type | id=id_password1 | Chicken1234
+        self.driver.find_element(By.ID, "id_password1").send_keys("Chicken1234")
+        # 10 | type | id=id_password2 | Chicken1234
+        self.driver.find_element(By.ID, "id_password2").send_keys("Chicken1234")
+        # 11 | sendKeys | id=id_password2 | ${KEY_ENTER}
+        self.driver.find_element(By.ID, "id_password2").send_keys(Keys.ENTER)
+        # 12 | click | linkText=Login |
+        self.driver.find_element(By.LINK_TEXT, "Login").click()
+        # 13 | click | css=.col-lg-6 |
+        self.driver.find_element(By.CSS_SELECTOR, ".col-lg-6").click()
+        # 14 | type | id=id_username | RegisterUser1
+        self.driver.find_element(By.ID, "id_username").send_keys("RegisterUser1")
+        # 15 | click | css=.content-section |
+        self.driver.find_element(By.CSS_SELECTOR, ".content-section").click()
+        # 16 | type | id=id_password | Chicken1234
+        self.driver.find_element(By.ID, "id_password").send_keys("Chicken1234")
+        # 17 | click | css=.btn |
+        self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
 
 
 @override_settings(DEBUG=True)
