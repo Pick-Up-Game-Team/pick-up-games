@@ -1,11 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.views.generic.detail import DetailView
 import folium
 import pandas as pd
-from pprint import pprint
 import requests
-import pyowm
 from statistics import mean
 from .models import City, Court
 from .forms import CityForm
@@ -130,3 +129,15 @@ def about(request):
 
 def sports(request):
     return render(request, 'home/sports.html')
+
+class CourtDetailView(DetailView):
+    model = Court
+    
+    def get_context_data(self, **kwargs):
+        """Define extra context variables"""
+        context = super().get_context_data(**kwargs)
+        
+        # Default image URLs for each sport
+        context['basketball_img'] = 'https://images.unsplash.com/photo-1616003618448-2914895212ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1167&q=80'
+        
+        return context
