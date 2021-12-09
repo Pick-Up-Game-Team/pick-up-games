@@ -16,6 +16,7 @@ def home(request):
     url = "https://raw.githubusercontent.com/Pick-Up-Game-Team/pick-up-games/main/home/static/db/rc.csv"
     
     courts = Court.objects.all()
+    print(courts)
     
     # Load default court data from csv file
     default_courts = pd.read_csv(url)
