@@ -1,19 +1,49 @@
-{% extends "home/base.html" %}
+{% extends "home/base.html" %} {% block content %}
 
-{% block title %}
-Court List
-{% endblock title %}
+<div class="container d-flex flex-column align-items-center">
+  <div class="d-flex justify-content-center pt-3">
+    {% if sport %}
+    <h2>All {{ sport }} Locations</h2>
+    {% else %}
+    <h2>All Courts</h2>
+    {% endif %}
+  </div>
+  {% if object_list|length == 0 %}
+  <h4>No courts available</h4>
 
-{% block content %}
+  {% endif %}
+  <div class="list-group">
+    {% for obj in object_list %}
+    <div
+      class="list-group-item list-group-item-action d-flex gap-3 py-3 bg-light"
+      aria-current="true"
+    >
+      <img
+        src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-basketball-sport-justicon-lineal-color-justicon.png"
+        alt="twbs"
+        width="32"
+        height="32"
+        class="rounded-circle flex-shrink-0"
+      />
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <div class="">
+          <ul>
+            <li>
+              <a class="mb-0" href="{% url 'court-detail' obj.pk %}"
+                >{{obj.name}}</a
+              >
+            </li>
+            <small class="opacity-50 text-nowrap"
+              >{{obj.profile_set|length}} current players</small
+            >
+          </ul>
 
-    <div class="container d-flex flex-column align-items-center">
-        <h1>Courts</h1>
-        {% if object_list|length == 0 %}
-            <h4>No courts available</h4>
-        {% endif %}
-        {% for obj in object_list %}
-            <a href="{% url 'court-detail' obj.pk %}">{{obj.name}}</a>
-        {% endfor %}
+          <!--small class="opacity-50 text-nowrap">now </small-->
+        </div>
+      </div>
     </div>
+    {% endfor %}
+  </div>
+</div>
 
 {% endblock content %}
