@@ -87,7 +87,9 @@
         <a class="py-2 d-none d-md-inline-block" href="{% url 'login' %}"
           >Login</a
         >
-
+        {% endif %}
+        
+        <!-- Search input and button -->
         <form
           class="d-flex form-inline my-2 my-lg-0"
           method="POST"
@@ -97,15 +99,15 @@
           <input
             class="form-control me-2 mr-sm-2"
             type="search"
-            placeholder="Search"
-            aria-label="Search"
+            placeholder="Search users"
+            aria-label="Search users"
             name="results"
           />
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
             Search
           </button>
         </form>
-        {% endif %}
+        
       </div>
     </nav>
 
