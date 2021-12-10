@@ -1,2 +1,2 @@
-release: python manage.py makemigrations; python manage.py makemigrations; python manage.py makemigrations; python manage.py migrate
+release: ./scripts/heroku_release.sh
 web: gunicorn pick_up_games.wsgi --log-file -
