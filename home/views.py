@@ -17,6 +17,8 @@ def home(request):
     
     courts = Court.objects.all()
     print(courts.exists())
+    print(courts)
+    print(courts.count())
     
     # Load default court data from csv file
     default_courts = pd.read_csv(url)
