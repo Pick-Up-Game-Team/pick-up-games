@@ -21,29 +21,42 @@
   text-decoration: none;
 }
 
+.sport-box {
+  color: #999;
+  text-decoration: none;
+}
+.sport-box:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
 
 .bg-basketball {
   background-image: url("https://images.unsplash.com/photo-1494199505258-5f95387f933c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80");
   background-repeat: no-repeat;
-  background-position: 30%;
+  background-position: center;
+  background-size: cover;
 }
 
 .bg-soccer{
-  background-image: url("https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80");
+  background-image: url("https://images.unsplash.com/photo-1511886929837-354d827aae26?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80");
   background-repeat: no-repeat;
-  background-position: 30% 50%;
+  background-position: center;
+  background-size: cover;
 }
 
 .bg-tennis{
-  background-image: url("https://images.unsplash.com/photo-1542144582-1ba00456b5e3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80");
+  background-image: url("https://images.unsplash.com/photo-1560012057-4372e14c5085?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80");
   background-repeat: no-repeat;
- 
+  background-position: center;
+  background-size: cover;
 }
 
 .bg-baseball{
   background-image: url("https://images.unsplash.com/photo-1590502160462-58b41354f588?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80");
   background-repeat: no-repeat;
-  background-position: 30%;
+  background-position: center;
+  background-size: cover;
 }
 /*
  * Extra utilities
@@ -328,4 +341,5 @@ a.list-group-item-dark:focus {
     border-bottom: 1px solid #e9e9e9;
 }
 .overflow-hidden { overflow: hidden; }
+
 

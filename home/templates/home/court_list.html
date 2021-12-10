@@ -1,13 +1,15 @@
 {% extends "home/base.html" %}
 
-{% block title %}
-Court List
-{% endblock title %}
-
 {% block content %}
 
     <div class="container d-flex flex-column align-items-center">
-        <h1>Courts</h1>
+        <div class="d-flex justify-content-center pt-3">
+            {% if sport %}
+            <h2>All {{ sport }} Locations</h2>
+            {% else %}
+            <h2>All Courts</h2>
+            {% endif %}
+        </div>
         {% if object_list|length == 0 %}
             <h4>No courts available</h4>
         {% endif %}

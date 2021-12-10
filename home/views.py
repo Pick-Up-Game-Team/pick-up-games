@@ -237,3 +237,19 @@ class CourtDetailView(DetailView):
 class CourtListView(ListView):
     model = Court
     
+    def get_queryset(self):
+        sport = self.request.GET.get('sport', None)
+        
+        if sport:
+            return Court.objects.filter(main_sport=sport)
+        else:
+            return super().get_queryset()
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        sport = self.request.GET.get('sport', None)
+        
+        context['sport'] = sport
+        
+        return context
+    
