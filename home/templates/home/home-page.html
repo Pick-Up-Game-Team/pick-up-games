@@ -20,7 +20,6 @@
       >
       <a href="{% url 'login' %}" class="btn btn-danger btn-lg">Login</a>
       {% endif %}
-      
     </div>
     <div class="col-md-5 mx-auto my-5">
       <div class="h-100 p-1 bg-light border rounded-3">{{my_map|safe}}</div>
@@ -28,7 +27,7 @@
   </div>
 </div>
 
-<div class="container-fluid bg-dark text-white">
+<div class="container-fluid bg-light text-dark">
   <div class="row featurette">
     <div
       id="bootstrap-overrides"
@@ -66,18 +65,18 @@
         <div class="col-sm">
           <article class="media">
             <div class="media-left">
-              <div id="openweathermap-widget-12"></div>
+              <div id="openweathermap-widget-11"></div>
               <script src="//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js"></script>
               <script>
                 window.myWidgetParam
                   ? window.myWidgetParam
                   : (window.myWidgetParam = []);
                 window.myWidgetParam.push({
-                  id: 12,
+                  id: 11,
                   cityid: "{{city_weather.city_id}}",
                   appid: "b6e19d92daea6f8d6c533d397f7ef2c5",
                   units: "metric",
-                  containerid: "openweathermap-widget-12",
+                  containerid: "openweathermap-widget-11",
                 });
                 (function () {
                   var script = document.createElement("script");
@@ -98,28 +97,5 @@
     </div>
   </div>
 </div>
-<!--
-<div class="container-fluid">
-   Default checked 
 
-  <div class="card">
-    <div class="card-header">Court Featured</div>
-    <div class="card-body">
-      <h5 class="card-title">Court Name</h5>
-      <p class="card-text">
-        Join the court. There are currently numbers of people in this court.
-      </p>
-      <div class="custom-control custom-switch">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="customSwitch1"
-          checked
-        />
-        <label class="custom-control-label" for="customSwitch1">Join</label>
-      </div>
-      <a href="#" class="btn btn-primary">Information about this court</a>
-    </div>
-  </div>
-</div>-->
 {% endblock content %}

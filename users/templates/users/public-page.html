@@ -1,55 +1,121 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<main role="main" class="container-fluid">
-  <div class="container">
-    <div class="row justify-content-between mt-4">
-      <div class="d-inline-flex">
-        <div class="content-section">
-          <div class="media">
+<section style="background-color: #eee;">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">User</a></li>
+            <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
 
-            <img class="rounded-circle account-img mr-4" src="{{ user.profile.image.url }}"><br>
-            <!-- This code prints out the user's information on the profile page -->
-            <p class="text-secondary"> <br>
-              <strong><font size = 5>{{ user.username }}</font></strong><br>
-              Height: {{ user.profile.calculate_height }}<br>
-              Date of Birth: {{ user.profile.dob }} <br>
-              Sports: {{ user.profile.sports }}<br>
-              Age: {{ user.profile.calculate_age }} <br>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="https://img.icons8.com/plasticine/100/000000/test-account.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3">{{ user.username }}</h5>
 
-            </p>
+            <!-- p class="text-muted mb-4">Bay Area, San Francisco, CA</!-->
+            <div class=" btn-group d-flex justify-content-center mb-2">
+              <button type="button" class="btn btn-primary">Follow</button>
+              <button type="button" class="btn btn-outline-primary ms-1">Message</button>
+            </div>
           </div>
-
-          <div class ="col-md-4" style="max-width: 50%">
-            <ul>
-              {% for friend in user.profile.get_friends %}
-                <li>{{friend}}</li>
-              {% endfor %}
+        </div>
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3" style="margin: 0">
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i class="fas fa-globe fa-lg text-warning"></i>
+                {% comment %} <p class="mb-0">https://mdbootstrap.com</p> {% endcomment %}
+                <a class="mb-0"  href="{% url  'profile' %}">Public Info</a>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i class="fab fa-github fa-lg" style="color: #333333;"></i>
+                <a class="mb-0"  href = "{% url 'profile-management' %}" >Account Management</a>
+              </li>
+              {% comment %} <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                <p class="mb-0">@mdbootstrap</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                <p class="mb-0">mdbootstrap</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                <p class="mb-0">mdbootstrap</p>
+              </li> {% endcomment %}
             </ul>
-            Number of Friends: {{user.profile.get_friends_no}}
           </div>
-          
         </div>
       </div>
-      <div class="content-section">
-        <h3>Our Sidebar</h3>
-        <p class='text-muted'>You can put any information here you'd like.
-          <ul class="list-group">
-            <a class="list-group-item list-group-item-light"  href="{% url  'profile' %}">Public Info</a>
-            <a class="list-group-item list-group-item-light" href = "{% url 'profile-management' %}" >Account Management</a>
-          </ul>
-        </p>
-      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">User Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.username }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">example@example.com</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Height</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.profile.calculate_height }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Date of Birth</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.profile.dob }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Sports</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.profile.sports }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Age</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.profile.calculate_age }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
-
-  <div class ="row">
-    <div class ="col-md-8">
-    </div>
-    <div class ="col-md-4">
-      <a href="{% url  'public-change' %}"> Change Public Info:</a>
-    </div>
-  </div>
-
-</main>
+</section>
 {% endblock content %}
