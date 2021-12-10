@@ -14,7 +14,9 @@
             <h4>No courts available</h4>
         {% endif %}
         {% for obj in object_list %}
-            <a href="{% url 'court-detail' obj.pk %}">{{obj.name}}</a>
+            <span>
+                <a href="{% url 'court-detail' obj.pk %}">{{obj.name}}</a> - {{obj.profile_set|length}} current players
+            </span>
         {% endfor %}
     </div>
 
