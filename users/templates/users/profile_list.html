@@ -1,6 +1,7 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
 
+
 {% block title %}
  List of All Profiles
 {% endblock title %}
@@ -10,55 +11,199 @@
         <h1>No Profiles to interact with</h1>
     {% endif %}
 
-    {% for obj in object_list %}
-        <div class="ui segment">
-            <div class="ui grid">
-                <div class="row">
-                    <div class="three wide column">
-                        <img class="ui small circular image"src={{obj.image.url}}>
-                    </div>
-                    <div class="thirteen wide column">
-                        <h3>{{obj.user}}</h3>
-                        <p>{{obj.sports}}</p>
-                        <button class="ui primary button">See profile</button>
-                        <br>
+    <!-- collapsible stuff -->
+    <div class="accordion" id="accordionExample">
 
-                        <!-- Adding Friend -->
-                        {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
-                        <form action="{% url 'send-invite' %}" method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                            <!-- No friend request between the 2 users -->
-                            <button type="submit" class="ui positive basic button">
-                                <i class="plus square icon">  </i>
-                                Add to friends
-                            </button>
-                        </form>
-                        {% endif %}
-
-                        <!-- There's a pending invite that we sent to this user -->
-                        {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
-                            <button class="ui disabled button">
-                                <i class="user icon"></i>
-                                Waiting for approval
-                            </button>
-                        {% endif %}
-
-                        <!-- Removing Friend -->
-                        {% if request.user in obj.friends.all %}
-                        <form action="{% url 'remove-friend' %}" method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                            <button type="submit" class="ui negative basic button">
-                                <i class="plus square icon"></i>
-                                Remove from friends
-                            </button>
-                        </form>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+        <!-- Card 1 -->
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              My Friends
+            </button>
+          </h5>
         </div>
-    {% endfor %}
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+            {% for obj in object_list %}
+                {% if request.user in obj.friends.all %}
+                    <div class="ui segment">
+                        <div class="ui grid">
+                            <div class="row">
+                                <div class="three wide column">
+                                    <img src={{obj.image.url}} width="100" height="100">
+                                </div>
+                                <div class="thirteen wide column">
+                                    <h3>{{obj.user}}</h3>
+                                    <button class="btn btn-primary mb-2">See profile</button>
+
+
+                                    <!-- Removing Friend -->
+                                    {% if request.user in obj.friends.all %}
+                                    <form action="{% url 'remove-friend' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                                        <button type="submit" class="btn btn-danger mb-5">
+                                            <i class="plus square icon"></i>
+                                            Remove from Friends
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+        <!-- Card 2 -->
+      <div class="card">
+        <div class="card-header" id="headingTwo">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Received Friend Requests
+            </button>
+          </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+          <div class="card-body">
+            {% for obj in object_list %}
+                {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+                    <div class="ui segment">
+                        <div class="ui grid">
+                            <div class="row">
+                                <div class="three wide column">
+                                    <img src={{obj.image.url}} width="100" height="100">
+                                </div>
+                                <div class="thirteen wide column">
+                                    <h3>{{obj.user}}</h3>
+
+                                    <button class="btn btn-primary mb-2">See profile</button>
+                                    <!-- Accepting friend invite -->
+                                    {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+                                    <form action="{% url 'accept-invite' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="check icon>">
+                                                    Accept invite
+                                                </i>
+                                            </button>
+                                    </form>
+                                    {% endif %}
+
+                                    <!-- Rejecting friend invite -->
+                                    {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+                                    <form action="{% url 'reject-invite' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="check icon>">
+                                                    Reject invite
+                                                </i>
+                                            </button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+        <!-- Card 3 -->
+      <div class="card">
+        <div class="card-header" id="headingThree">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Pending Friend Requests
+            </button>
+          </h5>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+          <div class="card-body">
+            {% for obj in object_list %}
+                {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
+                    <div class="ui segment">
+                        <div class="ui grid">
+                            <div class="row">
+                                <div class="three wide column">
+                                    <img src={{obj.image.url}} width="100" height="100">
+                                </div>
+                                <div class="thirteen wide column">
+                                    <h3>{{obj.user}}</h3>
+                                    <button class="btn btn-primary mb-2">See profile</button>
+                                    <br>
+                                    <!-- There's a pending invite that we sent to this user -->
+                                    {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
+                                        <button class="btn btn-danger">
+                                            <i class="user icon"></i>
+                                            Cancel Invite
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+          <!-- Card 4 -->
+      <div class="card">
+        <div class="card-header" id="headingFour">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+              Requestable People
+            </button>
+          </h5>
+        </div>
+        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+          <div class="card-body">
+            {% for obj in object_list %}
+                {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
+                    <div class="ui segment">
+                        <div class="ui grid">
+                            <div class="row">
+                                <div class="three wide column">
+                                    <img src={{obj.image.url}} width="100" height="100">
+                                </div>
+                                <div class="thirteen wide column">
+                                    <h3>{{obj.user}}</h3>
+                                    <button class="btn btn-primary mb-2">See profile</button>
+                                    <br>
+
+                                    <!-- Adding Friend -->
+                                    {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
+                                    <form action="{% url 'send-invite' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                                        <!-- No friend request between the 2 users -->
+                                        <button type="submit" class="btn btn-success mb-5">
+                                            <i class="plus square icon">  </i>
+                                            Send Friend Request
+                                        </button>
+                                    </form>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
 
 {% endblock content %}
