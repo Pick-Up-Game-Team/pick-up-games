@@ -16,7 +16,12 @@
               Date of Birth: {{ user.profile.dob }} <br>
               Sports: {{ user.profile.sports }}<br>
               Age: {{ user.profile.calculate_age }} <br>
-
+              Status:
+              {%if user.profile.is_online%}
+                online
+              {%else%}
+                offline
+              {% endif %}
             </p>
           </div>
 

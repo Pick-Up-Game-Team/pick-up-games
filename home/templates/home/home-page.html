@@ -14,10 +14,13 @@
         for and meet up with other people who want to play pick up sports games!
       </p>
 
+      {% if not user.is_authenticated %}
       <a href="{% url 'registration' %}" class="btn btn-secondary btn-lg"
         >Sign Up</a
       >
       <a href="{% url 'login' %}" class="btn btn-danger btn-lg">Login</a>
+      {% endif %}
+      
     </div>
     <div class="col-md-5 mx-auto my-5">
       <div class="h-100 p-1 bg-light border rounded-3">{{my_map|safe}}</div>
@@ -34,11 +37,11 @@
     >
       <h1 class="display-3 fw-bold">Weather in your area</h1>
       <p class="">Check out the weather before going to your games.</p>
-      <form class='form-inline'method="POST">
+      <form class="form-inline" method="POST">
         {% csrf_token %}
         <div class="form-group">
-        <div style="padding-left :0" class="col">  {{ form.name }}  </div>
-          
+          <div style="padding-left: 0" class="col">{{ form.name }}</div>
+
           <div class="control">
             <button type="submit" class="button is-info btn btn-primary mb-2">
               Add City
@@ -46,7 +49,7 @@
           </div>
         </div>
         {% if message %}
-        <div class="notification ">
+        <div class="notification">
           {{ message }}<button
             class="del-msg delete"
             onclick="document.getElementsByClassName('notification')[0].style.display='none'"
@@ -59,28 +62,64 @@
 
     <div class="col-md-5 mx-auto my-5">
       <div class="rows">
-        
-          {% for city_weather in weather_data %}
-          <div class="col-sm">
-            <article class="media">
-              <div class="media-left">
-                  <div id="openweathermap-widget-11"></div>
-                  <script src='//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js'></script>
-                  <script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  window.myWidgetParam.push({
-                    id: 11,
-                    cityid: "{{city_weather.city_id}}",
-                    appid: 'b6e19d92daea6f8d6c533d397f7ef2c5',
-                    units: 'metric',containerid: 'openweathermap-widget-11',  });  (function() {var script = document.createElement('script');script.async = true;script.charset = "utf-8";script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(script, s);  })();</script>
-                </div>
-              </div>
-            </article>
+        {% for city_weather in weather_data %}
+        <div class="col-sm">
+          <article class="media">
+            <div class="media-left">
+              <div id="openweathermap-widget-12"></div>
+              <script src="//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/d3.min.js"></script>
+              <script>
+                window.myWidgetParam
+                  ? window.myWidgetParam
+                  : (window.myWidgetParam = []);
+                window.myWidgetParam.push({
+                  id: 12,
+                  cityid: "{{city_weather.city_id}}",
+                  appid: "b6e19d92daea6f8d6c533d397f7ef2c5",
+                  units: "metric",
+                  containerid: "openweathermap-widget-12",
+                });
+                (function () {
+                  var script = document.createElement("script");
+                  script.async = true;
+                  script.charset = "utf-8";
+                  script.src =
+                    "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";
+                  var s = document.getElementsByTagName("script")[0];
+                  s.parentNode.insertBefore(script, s);
+                })();
+              </script>
+            </div>
+          </article>
 
-            {% endfor %}
-          
+          {% endfor %}
         </div>
       </div>
     </div>
   </div>
-
-  {% endblock content %}
 </div>
+<!--
+<div class="container-fluid">
+   Default checked 
+
+  <div class="card">
+    <div class="card-header">Court Featured</div>
+    <div class="card-body">
+      <h5 class="card-title">Court Name</h5>
+      <p class="card-text">
+        Join the court. There are currently numbers of people in this court.
+      </p>
+      <div class="custom-control custom-switch">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="customSwitch1"
+          checked
+        />
+        <label class="custom-control-label" for="customSwitch1">Join</label>
+      </div>
+      <a href="#" class="btn btn-primary">Information about this court</a>
+    </div>
+  </div>
+</div>-->
+{% endblock content %}

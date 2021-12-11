@@ -2,7 +2,9 @@
 {% block content %}
   <center>
     {% if results %}
-      <h3> results for: {{ results }} </h3>
+      <div class="d-flex justify-content-center pt-3">
+        <h2> results for: {{ results }} </h2>
+      </div>  
 
       <br/>
       {% for query in queries %}
@@ -17,7 +19,9 @@
       {% endfor %}
 
     {% else %}
-      <h1>no results for an empty search ...</h1>
+      <div class="d-flex justify-content-center pt-3">
+        <h2>no results for an empty search ...</h2>
+      </div>
     {% endif %}
   </center>
 {% endblock content %}

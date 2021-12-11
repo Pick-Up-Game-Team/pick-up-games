@@ -295,7 +295,6 @@ class TestFriendRequests(StaticLiveServerTestCase):
 
         self.driver.set_window_size(1936, 1056)
 
-        #slow this hoe down
 
 
     def tearDown(self):
@@ -363,3 +362,157 @@ class TestFriendRequests(StaticLiveServerTestCase):
         self.driver.find_element(By.CSS_SELECTOR, ".negative").click()
         # 24 | click | linkText=Log Out |  |
         self.driver.find_element(By.LINK_TEXT, "Log Out").click()
+
+@override_settings(DEBUG=True)
+class TestManageFriends(StaticLiveServerTestCase):
+    def setUp(self):
+        """
+        Set up test environment (runs once per test function)
+        """
+
+        # Inherit setUp()
+        super().setUp()
+
+        # Set up Chrome web driver and test client
+        self.client = Client()
+        self.driver = WebDriver(executable_path=binary_path)
+        self.driver.implicitly_wait(5)
+
+        # Define variables
+        self.username2 = 'testUser1'
+        self.password2 = 'fakepass112'
+        self.username3 = 'testUser2'
+        self.password3 = 'fakepass113'
+        self.username4 = 'testUser3'
+        self.password4 = 'fakepass114'
+        self.username1 = 'WillReadyhough'
+        self.password1 = 'Games1101'
+
+        # Create account
+        self.user1 = User.objects.create_user(username=self.username1,
+                                              email=f'{self.username1}@email.com',
+                                              password=self.password1)
+        self.user2 = User.objects.create_user(username=self.username2,
+                                             email=f'{self.username2}@email.com',
+                                             password=self.password2)
+        self.user3 = User.objects.create_user(username=self.username3,
+                                              email=f'{self.username3}@email.com',
+                                              password=self.password3)
+        self.user4 = User.objects.create_user(username=self.username4,
+                                              email=f'{self.username4}@email.com',
+                                              password=self.password4)
+
+
+
+        self.driver.set_window_size(1936, 1056)
+
+
+
+    def tearDown(self):
+        """
+        Destroy test environment (run once per test function)
+        """
+        # Inherit tearDown()
+        super().tearDown()
+        self.driver.quit()
+
+    def test_manageFriends(self):
+        self.driver.get(f"{self.live_server_url}")
+        # Step # | name | target | value | comment
+        # 2 | setWindowSize | 1382x886 |  |
+        self.driver.set_window_size(1382, 886)
+        # 3 | click | linkText=Login |  |
+        self.driver.find_element(By.LINK_TEXT, "Login").click()
+        # 4 | type | id=id_username | testUser1 |
+        self.driver.find_element(By.ID, "id_username").send_keys("testUser1")
+        # 5 | type | id=id_password | fakepass112 |
+        self.driver.find_element(By.ID, "id_password").send_keys("fakepass112")
+        # 6 | click | id=id_username |  |
+        self.driver.find_element(By.ID, "id_username").click()
+        # 7 | click | css=.btn-outline-info |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".btn-outline-info").click()
+        # 8 | click | linkText=Profile |  |
+        self.driver.find_element(By.LINK_TEXT, "Profile").click()
+        # 9 | click | linkText=Change Public Info: |  |
+        self.driver.find_element(By.LINK_TEXT, "Change Public Info:").click()
+        # 10 | click | css=.col-md-4 input |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".col-md-4 input").click()
+        # 11 | click | css=#headingTwo .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, "#headingTwo .btn").click()
+        # 12 | click | css=#headingThree .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, "#headingThree .btn").click()
+        # 13 | click | css=#headingFour .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, "#headingFour .btn").click()
+        # 14 | click | css=.ui:nth-child(2) form > .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".ui:nth-child(2) form > .btn").click()
+        # 15 | click | css=#headingFour .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, "#headingFour .btn").click()
+        # 16 | click | css=.ui:nth-child(2) form > .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".ui:nth-child(2) form > .btn").click()
+        # 17 | click | linkText=Log Out |  |
+        self.driver.find_element(By.LINK_TEXT, "Log Out").click()
+        # 18 | click | linkText=here |  |
+        self.driver.find_element(By.LINK_TEXT, "here").click()
+        # 19 | type | id=id_username | testUser2 |
+        self.driver.find_element(By.ID, "id_username").send_keys("testUser2")
+        # 20 | type | id=id_password | fakepass113 |
+        self.driver.find_element(By.ID, "id_password").send_keys("fakepass113")
+        # 21 | click | css=.btn-outline-info |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".btn-outline-info").click()
+        # 22 | click | css=.flex-column |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".flex-column").click()
+        # 23 | click | linkText=Profile |  |
+        self.driver.find_element(By.LINK_TEXT, "Profile").click()
+        # 24 | click | linkText=Change Public Info: |  |
+        self.driver.find_element(By.LINK_TEXT, "Change Public Info:").click()
+        # 25 | click | css=.col-md-4 input |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".col-md-4 input").click()
+        # 26 | click | css=#headingTwo .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, "#headingTwo .btn").click()
+        # 27 | click | css=.btn-success > .check |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".btn-success > .check").click()
+        # 28 | click | css=.btn-danger |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".btn-danger").click()
+        # 29 | click | css=#headingFour .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, "#headingFour .btn").click()
+        # 30 | click | css=.ui:nth-child(3) form > .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".ui:nth-child(3) form > .btn").click()
+        # 31 | click | linkText=Log Out |  |
+        self.driver.find_element(By.LINK_TEXT, "Log Out").click()
+        # 32 | click | linkText=here |  |
+        self.driver.find_element(By.LINK_TEXT, "here").click()
+        # 33 | click | id=id_username |  |
+        self.driver.find_element(By.ID, "id_username").click()
+        # 34 | type | id=id_username | testUser3 |
+        self.driver.find_element(By.ID, "id_username").send_keys("testUser3")
+        # 35 | type | id=id_password | fakepass114 |
+        self.driver.find_element(By.ID, "id_password").send_keys("fakepass114")
+        # 36 | click | css=.btn-outline-info |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".btn-outline-info").click()
+        # 37 | click | css=.flex-column |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".flex-column").click()
+        # 38 | click | linkText=Profile |  |
+        self.driver.find_element(By.LINK_TEXT, "Profile").click()
+        # 39 | click | linkText=Change Public Info: |  |
+        self.driver.find_element(By.LINK_TEXT, "Change Public Info:").click()
+        # 40 | click | css=.col-md-4 input |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".col-md-4 input").click()
+        # 41 | click | css=#headingTwo .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, "#headingTwo .btn").click()
+        # 42 | click | css=.ui:nth-child(1) > .ui form:nth-child(3) > .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".ui:nth-child(1) > .ui form:nth-child(3) > .btn").click()
+        # 43 | click | css=#headingTwo .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, "#headingTwo .btn").click()
+        # 44 | click | css=.btn-success > .check |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".btn-success > .check").click()
+        # 45 | click | css=.ui:nth-child(2) form > .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".ui:nth-child(2) form > .btn").click()
+        # 46 | click | css=.btn-danger |  |
+        self.driver.find_element(By.CSS_SELECTOR, ".btn-danger").click()
+        # 47 | click | css=#headingThree .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, "#headingThree .btn").click()
+        # 48 | click | css=#headingFour .btn |  |
+        self.driver.find_element(By.CSS_SELECTOR, "#headingFour .btn").click()
+        # 49 | click | linkText=Log Out |  |
+        self.driver.find_element(By.LINK_TEXT, "Log Out").click()
+
