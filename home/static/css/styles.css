@@ -21,29 +21,42 @@
   text-decoration: none;
 }
 
+.sport-box {
+  color: #999;
+  text-decoration: none;
+}
+.sport-box:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
 
 .bg-basketball {
   background-image: url("https://images.unsplash.com/photo-1494199505258-5f95387f933c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80");
   background-repeat: no-repeat;
-  background-position: 30%;
+  background-position: center;
+  background-size: cover;
 }
 
 .bg-soccer{
-  background-image: url("https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80");
+  background-image: url("https://images.unsplash.com/photo-1511886929837-354d827aae26?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80");
   background-repeat: no-repeat;
-  background-position: 30% 50%;
+  background-position: center;
+  background-size: cover;
 }
 
 .bg-tennis{
-  background-image: url("https://images.unsplash.com/photo-1542144582-1ba00456b5e3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80");
+  background-image: url("https://images.unsplash.com/photo-1560012057-4372e14c5085?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80");
   background-repeat: no-repeat;
- 
+  background-position: center;
+  background-size: cover;
 }
 
 .bg-baseball{
   background-image: url("https://images.unsplash.com/photo-1590502160462-58b41354f588?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80");
   background-repeat: no-repeat;
-  background-position: 30%;
+  background-position: center;
+  background-size: cover;
 }
 /*
  * Extra utilities
@@ -329,3 +342,66 @@ a.list-group-item-dark:focus {
 }
 .overflow-hidden { overflow: hidden; }
 
+
+.b-example-divider {
+  border border-dark
+  height: 3rem;
+  background-color: rgba(0, 0, 0, .1);
+  border: solid rgba(0, 0, 0, .15);
+  border-width: 1px 0;
+  box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+}
+
+.bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+
+.opacity-50 { opacity: .5; }
+.opacity-75 { opacity: .75; }
+
+.list-group {
+  width: auto;
+  max-width: 460px;
+  margin: 4rem auto;
+}
+
+.form-check-input:checked + .form-checked-content {
+  opacity: .5;
+}
+
+.form-check-input-placeholder {
+  pointer-events: none;
+  border-style: dashed;
+}
+[contenteditable]:focus {
+  outline: 0;
+}
+
+.list-group-checkable {
+  display: grid;
+  gap: .5rem;
+  border: 0;
+}
+.list-group-checkable .list-group-item {
+  cursor: pointer;
+  border-radius: .5rem;
+}
+.list-group-item-check {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}
+.list-group-item-check:hover + .list-group-item {
+  background-color: var(--bs-light);
+}
+.list-group-item-check:checked + .list-group-item {
+  color: #fff;
+  background-color: var(--bs-blue);
+}
+.list-group-item-check[disabled] + .list-group-item,
+.list-group-item-check:disabled + .list-group-item {
+  pointer-events: none;
+  filter: none;
+  opacity: .5;
+}
