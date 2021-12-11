@@ -46,6 +46,7 @@ class Profile(models.Model):
     # Height in inches
     height = models.IntegerField(default=60)
     #Date of Birth
+
     dob = models.DateField(default=date(year=2000, month=1, day=1))
     #ToDO (Kenneth)  Tempoary PlaceHolder for the sports colum
     sports = models.TextField(default = 'No Sports Played')
@@ -53,6 +54,9 @@ class Profile(models.Model):
     # friends stuff
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
     objects = ProfileManager()
+    #Used to check if the user is online
+    is_online = models.BooleanField(default = False)
+
     court = ForeignKey(Court, on_delete=models.SET_NULL, blank=True, null=True)
 
     def get_friends(self):
